@@ -1,0 +1,3 @@
+#!/bin/bash
+
+python /home/direksyon/webcrawler/rssReader/rssReader.py
