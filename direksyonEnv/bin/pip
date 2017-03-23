@@ -1,4 +1,4 @@
-#!/home/direksyon/webcrawler/direksyonEnv/bin/python
+#!/home/direksyon/direksyon-traffic/direksyonEnv/bin/python
 
 # -*- coding: utf-8 -*-
 import re

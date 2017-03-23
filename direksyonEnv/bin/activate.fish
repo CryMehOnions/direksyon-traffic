@@ -36,7 +36,7 @@ end
 # Unset irrelevant variables.
 deactivate nondestructive
 
-set -gx VIRTUAL_ENV "/home/direksyon/webcrawler/direksyonEnv"
+set -gx VIRTUAL_ENV "/home/direksyon/direksyon-traffic/direksyonEnv"
 
 set -gx _OLD_VIRTUAL_PATH $PATH
 set -gx PATH "$VIRTUAL_ENV/bin" $PATH
