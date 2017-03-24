@@ -40,13 +40,16 @@ for row in data:  # Street, Day of Week, Time Interval, Traffic Condition
     timestamp = row_temp[1].split(' ')
     # timestamp[0] = Day of Week, timestamp[1] = Day, timestamp[2] = Month, timestamp[3] = Year, timestamp[4] = Time
 
+
+    # delete not needed time information (timestamp[0] = Day of Week, timestamp[1] = Time)
+    del timestamp[1]  # deletes year
+    del timestamp[1]  # deletes month
+    del timestamp[1]  # deletes day
+    del timestamp[2]  # deletes last thing
+
     print("Timestamp: ")
     print(timestamp)
 
-    # delete not needed time information (timestamp[0] = Day of Week, timestamp[1] = Time)
-    del timestamp[3]  # deletes year
-    del timestamp[2]  # deletes month
-    del timestamp[1]  # deletes day
     timestamp[0] = timestamp[0].replace(',', '')
 
     # convert time to interval value
@@ -60,3 +63,5 @@ for row in data:  # Street, Day of Week, Time Interval, Traffic Condition
     # Result: row[0] = Street, row[1] = Day of Week, row[2] = Time Interval
 
     print(row)
+
+    print("\n\n")
