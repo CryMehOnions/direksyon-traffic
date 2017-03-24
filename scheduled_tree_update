@@ -1,0 +1,3 @@
+#!/bin/bash
+
+python /home/direksyon/direksyon-traffic/TrafficModel/TrafficPrediction_v1.py
