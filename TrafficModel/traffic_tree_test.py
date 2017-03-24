@@ -21,6 +21,8 @@ data = cur.fetchall()
 for row in data:  # Street, Day of Week, Time Interval, Traffic Condition
 
     row_temp = list(row)
+    print("Raw row as list: ")
+    print(row_temp)
 
     # combines location elements
     row_temp[0:2] = '-'.join(row_temp[0:2]) # 0 - Street, 1 - timestamp, 2 - traffic
