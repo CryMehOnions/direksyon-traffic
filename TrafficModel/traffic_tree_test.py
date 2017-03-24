@@ -20,19 +20,16 @@ data = cur.fetchall()
 
 for row in data:  # Street, Day of Week, Time Interval, Traffic Condition
 
-    print("Raw row: ")
-    print(row)
+    row_temp = list(row)
 
     # combines location elements
-    row[0] = '-'.join(row[0:2]) # 0 - Street, 1 - timestamp, 2 - traffic
-    del row[1]
-    del row[2]
+    row_temp[0:2] = '-'.join(row_temp[0:2]) # 0 - Street, 1 - timestamp, 2 - traffic
 
     print("After join: ")
-    print(row)
+    print(row_temp)
 
     # splits timestamp into day and time interval
-    timestamp = row[1].split(' ')
+    timestamp = row_temp[1].split(' ')
     # timestamp[0] = Day of Week, timestamp[1] = Day, timestamp[2] = Month, timestamp[3] = Year, timestamp[4] = Time
 
     print("Timestamp: ")
@@ -49,8 +46,8 @@ for row in data:  # Street, Day of Week, Time Interval, Traffic Condition
     timestamp[1] = ((int(time[0]) * 60) + int(time[1])) / 15
 
     # adds new time elements into row
-    del row[1]
-    row.extend(timestamp)
+    del row_temp[1]
+    row_temp.extend(timestamp)
 
     # Result: row[0] = Street, row[1] = Day of Week, row[2] = Time Interval
 
