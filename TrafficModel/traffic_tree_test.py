@@ -22,10 +22,14 @@ for row in data:  # Street, Day of Week, Time Interval, Traffic Condition
     # combines location elements
     '-'.join(row[0:2]) # 0 - Street, 1 - timestamp, 2 - traffic
 
+    print("After join: ")
+    print(row)
+
     # splits timestamp into day and time interval
     timestamp = row[1].split(' ')
     # timestamp[0] = Day of Week, timestamp[1] = Day, timestamp[2] = Month, timestamp[3] = Year, timestamp[4] = Time
 
+    print("Timestamp: ")
     print(timestamp)
 
     # delete not needed time information (timestamp[0] = Day of Week, timestamp[1] = Time)
