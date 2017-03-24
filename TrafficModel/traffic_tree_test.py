@@ -31,7 +31,7 @@ for row in data:  # Street, Day of Week, Time Interval, Traffic Condition
     print(row_temp)
 
     del row_temp[1]
-    del row_temp[2]
+    del row_temp[1]
 
     print("After deletions: ")
     print(row_temp)
