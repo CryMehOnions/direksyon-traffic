@@ -49,12 +49,12 @@ for row in data:  # Street, Day of Week, Time Interval, Traffic Condition
 
     timestamp[0] = timestamp[0].replace(',', '')
 
-    print("Timestamp: ")
-    print(timestamp)
-
     # convert time to interval value
     time = timestamp[1].split(':')
     timestamp[1] = ((int(time[0]) * 60) + int(time[1])) / 15
+
+    print("Timestamp: ")
+    print(timestamp)
 
     # adds new time elements into row
     del row_temp[1]
