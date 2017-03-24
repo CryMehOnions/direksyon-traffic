@@ -47,10 +47,10 @@ for row in data:  # Street, Day of Week, Time Interval, Traffic Condition
     del timestamp[1]  # deletes day
     del timestamp[2]  # deletes last thing
 
+    timestamp[0] = timestamp[0].replace(',', '')
+
     print("Timestamp: ")
     print(timestamp)
-
-    timestamp[0] = timestamp[0].replace(',', '')
 
     # convert time to interval value
     time = timestamp[1].split(':')
