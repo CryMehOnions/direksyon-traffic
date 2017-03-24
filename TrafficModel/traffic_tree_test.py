@@ -1,25 +1,29 @@
+import psycopg2
+
+try:
+    conn = psycopg2.connect("dbname='mmda_traffic' user='direksyon' host='localhost' password='gothere4lyf'")
+except:
+    print("DB connect failed.")
+
+cur = conn.cursor()
+
+# check when last update was
+#
+
+try:
+    cur.execute("""SELECT location_road, location_bound, location_area, timestamp, traffic FROM entries WHERE update_timestamp > timestamp '2016-09-25 00:00:00'""")
+except:
+    print("Data retrieval failed.")
+
+data = cur.fetchall()
+
+for row in data:  # Street, Day of Week, Time Interval, Traffic Condition
 
 
-data = [['street1', 'Monday', 1, 'Light'],
-         ['street2', 'Tuesday', 2, 'Medium'],
-         ['street3', 'Wednesday', 3, 'Heavy'],
-         ['street1', 'Thursday', 4, 'Light'],
-         ['street2', 'Monday', 5, 'Medium'],
-         ['street3', 'Tuesday', 1, 'Heavy'],
-         ['street1', 'Wednesday', 2, 'Medium'],
-         ['street2', 'Thursday', 3, 'Medium'],
-         ['street3', 'Monday', 4, 'Medium'],
-         ['street1', 'Tuesday', 5, 'Light'],
-         ['street2', 'Wednesday', 1, 'Light'],
-         ['street3', 'Thursday', 2, 'Light'],
-         ['street1', 'Monday', 3, 'Heavy'],
-         ['street2', 'Tuesday', 4, 'Heavy'],
-         ['street3', 'Wednesday', 5, 'Heavy'],
-         ['street1', 'Thursday', 1, 'Light'],
-         ['street2', 'Monday', 2, 'Medium'],
-         ['street3', 'Tuesday', 2, 'Heavy'],
-         ['street1', 'Wednesday', 4, 'Light'],
-         ['street2', 'Thursday', 5, 'Medium']]
+    # Result: row[0] = Street, row[1] = Day of Week, row[2] = Time Interval
+
+    print(row)
+
 
 def divideset(rows, column, value):
     split_function = None
@@ -126,7 +130,7 @@ def classify(observation, tree):
         return classify(observation, branch)
 
 
-result = buildtree(data)
-printtree(result)
-print(classify(['street2', 'Monday', 5], result))
+# result = buildtree(data)
+# printtree(result)
+# print(classify(['street2', 'Monday', 5], result))
 
