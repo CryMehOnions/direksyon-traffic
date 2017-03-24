@@ -1,4 +1,5 @@
 import psycopg2
+import traffic_tree_prototype
 
 try:
     conn = psycopg2.connect("host='128.199.106.13' dbname='mmda_traffic' user='direksyon' host='localhost' password='gothere4lyf'")
@@ -74,6 +75,6 @@ for row in data:  # Street, Day of Week, Time Interval, Traffic Condition
 # USE DECISION TREE
 
 
-#result = traffic_tree_prototype.buildtree(data)
-#traffic_tree_prototype.printtree(result)
-#print(traffic_tree_prototype.classify(['QUEZON_AVE.-ROOSEVELT_AVENUE-L', 'Monday', 5], result))
+result = traffic_tree_prototype.buildtree(data)
+traffic_tree_prototype.printtree(result)
+print(traffic_tree_prototype.classify(['ORTIGAS-SB-C5_FLYOVER', 'Wed', 47], result))
