@@ -25,7 +25,7 @@ for row in data:  # Street, Day of Week, Time Interval, Traffic Condition
     print(row_temp)
 
     # combines location elements
-    print('-'.join(row_temp[0::2])) # 0 - Street, 1 - timestamp, 2 - traffic
+    row_temp[0::2] = '-'.join(row_temp[0::2]) # 0 - Street, 1 - timestamp, 2 - traffic
 
     print("After join: ")
     print(row_temp)
