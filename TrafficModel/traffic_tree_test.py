@@ -27,14 +27,8 @@ for row in data:  # Street, Day of Week, Time Interval, Traffic Condition
     # combines location elements
     row_temp[0] = '-'.join(row_temp[0::2]) # 0 - Street, 1 - timestamp, 2 - traffic
 
-    print("After join: ")
-    print(row_temp)
-
     del row_temp[1]
     del row_temp[1]
-
-    print("After deletions: ")
-    print(row_temp)
 
     # splits timestamp into day and time interval
     timestamp = row_temp[1].split(' ')
@@ -50,15 +44,22 @@ for row in data:  # Street, Day of Week, Time Interval, Traffic Condition
     timestamp[0] = timestamp[0].replace(',', '')
 
     # convert time to interval value
-    time = timestamp[1].split(':')
-    timestamp[1] = ((int(time[0]) * 60) + int(time[1])) / 15
+    day_of_week = timestamp[0]
+    split_stamp = timestamp[1].split(':')
+    interval = ((int(split_stamp[0]) * 60) + int(split_stamp[1])) / 15
 
-    print("Timestamp: ")
-    print(timestamp)
+    traffic_con = row_temp[2]
 
     # adds new time elements into row
     del row_temp[1]
-    row_temp.extend(timestamp)
+    del row_temp[1]
+
+    row_temp.append(day_of_week)
+    row_temp.append(interval)
+    row_temp.append(traffic_con)
+
+    print("After conversion: ")
+    print(row_temp)
 
     # Result: row[0] = Street, row[1] = Day of Week, row[2] = Time Interval
 
