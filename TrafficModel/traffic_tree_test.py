@@ -26,10 +26,14 @@ for row in data:  # Street, Day of Week, Time Interval, Traffic Condition
 
     # combines location elements
     row_temp[0] = '-'.join(row_temp[0::2]) # 0 - Street, 1 - timestamp, 2 - traffic
+
+    print("After join: ")
+    print(row_temp)
+
     del row_temp[1]
     del row_temp[2]
 
-    print("After join: ")
+    print("After deletions: ")
     print(row_temp)
 
     # splits timestamp into day and time interval
