@@ -19,8 +19,14 @@ except:
 data = cur.fetchall()
 
 for row in data:  # Street, Day of Week, Time Interval, Traffic Condition
+
+    print("Raw row: ")
+    print(row)
+
     # combines location elements
-    '-'.join(row[0:2]) # 0 - Street, 1 - timestamp, 2 - traffic
+    row[0] = '-'.join(row[0:2]) # 0 - Street, 1 - timestamp, 2 - traffic
+    del row[1]
+    del row[2]
 
     print("After join: ")
     print(row)
