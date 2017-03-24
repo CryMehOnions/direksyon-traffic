@@ -20,18 +20,18 @@ data = cur.fetchall()
 
 for row in data:  # Street, Day of Week, Time Interval, Traffic Condition
 
-    row_temp = list(row)
+    new_row = list(row)
     print("Raw row as list: ")
-    print(row_temp)
+    print(new_row)
 
     # combines location elements
-    row_temp[0] = '-'.join(row_temp[0::2]) # 0 - Street, 1 - timestamp, 2 - traffic
+    new_row[0] = '-'.join(new_row[0::2]) # 0 - Street, 1 - timestamp, 2 - traffic
 
-    del row_temp[1]
-    del row_temp[1]
+    del new_row[1]
+    del new_row[1]
 
     # splits timestamp into day and time interval
-    timestamp = row_temp[1].split(' ')
+    timestamp = new_row[1].split(' ')
     # timestamp[0] = Day of Week, timestamp[1] = Day, timestamp[2] = Month, timestamp[3] = Year, timestamp[4] = Time
 
 
@@ -48,21 +48,21 @@ for row in data:  # Street, Day of Week, Time Interval, Traffic Condition
     split_stamp = timestamp[1].split(':')
     interval = ((int(split_stamp[0]) * 60) + int(split_stamp[1])) / 15
 
-    traffic_con = row_temp[2]
+    traffic_con = new_row[2]
 
     # adds new time elements into row
-    del row_temp[1]
-    del row_temp[1]
+    del new_row[1]
+    del new_row[1]
 
-    row_temp.append(day_of_week)
-    row_temp.append(interval)
-    row_temp.append(traffic_con)
+    new_row.append(day_of_week)
+    new_row.append(interval)
+    new_row.append(traffic_con)
 
-    print("After conversion: ")
-    print(row_temp)
+    row = tuple(new_row)
 
     # Result: row[0] = Street, row[1] = Day of Week, row[2] = Time Interval
 
+    print("After conversion: ")
     print(row)
 
     print("\n\n")
