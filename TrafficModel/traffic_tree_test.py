@@ -26,6 +26,8 @@ for row in data:  # Street, Day of Week, Time Interval, Traffic Condition
     timestamp = row[1].split(' ')
     # timestamp[0] = Day of Week, timestamp[1] = Day, timestamp[2] = Month, timestamp[3] = Year, timestamp[4] = Time
 
+    print(timestamp)
+
     # delete not needed time information (timestamp[0] = Day of Week, timestamp[1] = Time)
     del timestamp[3]  # deletes year
     del timestamp[2]  # deletes month
