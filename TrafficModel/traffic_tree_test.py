@@ -1,5 +1,4 @@
 import psycopg2
-import traffic_tree_prototype
 
 try:
     conn = psycopg2.connect("host='128.199.106.13' dbname='mmda_traffic' user='direksyon' host='localhost' password='gothere4lyf'")
