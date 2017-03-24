@@ -25,7 +25,7 @@ for row in data:  # Street, Day of Week, Time Interval, Traffic Condition
     print(new_row)
 
     # combines location elements
-    new_row[0] = '-'.join(new_row[0:2]) # 0 - Street, 1 - timestamp, 2 - traffic
+    new_row[0] = '-'.join(new_row[0:3]) # 0 - Street, 1 - timestamp, 2 - traffic
 
     del new_row[1]
     del new_row[1]
