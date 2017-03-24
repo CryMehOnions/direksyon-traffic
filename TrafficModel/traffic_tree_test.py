@@ -181,5 +181,5 @@ def classify(observation, tree):
 
 
 result = buildtree(data)
-printtree(result)
+# printtree(result)
 print(classify(['ORTIGAS-SB-C5_FLYOVER', 'Wed', 47], result))
