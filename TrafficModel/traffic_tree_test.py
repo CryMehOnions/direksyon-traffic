@@ -14,7 +14,7 @@ def get_data():
     #
 
     try:
-        cur.execute("""SELECT location_road, location_bound, location_area, timestamp, traffic FROM entries WHERE update_timestamp > timestamp '2017-03-23 00:00:00'""")
+        cur.execute("""SELECT location_road, location_bound, location_area, timestamp, traffic FROM entries WHERE update_timestamp > timestamp '2017-03-23 00:00:00' AND update_timestamp < '2017-03-24 00:00:00'""")
     except:
         print("Data retrieval failed.")
 
@@ -150,18 +150,18 @@ def buildtree(rows, scoref=entropy):
     else:
         return TreeNode(results=countunique(rows))
 
-
+"""
 def printtree(tree, indent=''):
     if tree.results != None:
         print(str(tree.results))
     else:
         print(str(tree.col)+':'+str(tree.value)+'? ')
         # Print the branches
-        print(indent+'T->', end = " ")
+        print(indent+'T->', end=" ")
         printtree(tree.tb, indent + '  ')
-        print(indent+'F->', end = " ")
+        print(indent+'F->', end=" ")
         printtree(tree.fb, indent + '  ')
-
+"""
 
 def classify(observation, tree):
     if tree.results != None:
@@ -185,8 +185,8 @@ def classify(observation, tree):
 print("Building tree...")
 result = buildtree(list(get_data()))
 
-print("Printing tree...")
-printtree(result)
+#print("Printing tree...")
+#printtree(result)
 
 print("Predicting traffic for ORTIGAS-SB-C5_FLYOVER on a Wednesday at time interval 47")
 print(classify(['ORTIGAS-SB-C5_FLYOVER', 'Wed', 47], result))
