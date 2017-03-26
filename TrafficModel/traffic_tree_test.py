@@ -184,5 +184,9 @@ def classify(observation, tree):
 
 print("Building tree...")
 result = buildtree(list(get_data()))
+
+print("Printing tree...")
 printtree(result)
+
+print("Predicting traffic for ORTIGAS-SB-C5_FLYOVER on a Wednesday at time interval 47")
 print(classify(['ORTIGAS-SB-C5_FLYOVER', 'Wed', 47], result))
