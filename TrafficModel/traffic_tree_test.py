@@ -112,12 +112,13 @@ def entropy(rows):
 
 
 class TreeNode:
-    def __init__(self, col=-1, value=None, results=None, tb=None, fb=None):
+    def __init__(self, col=-1, value=None, results=None, true_branch=None, false_branch=None, alt_node=None):
         self.col = col
         self.value = value
         self.results = results
-        self.tb = tb
-        self.fb = fb
+        self.true_branch = true_branch
+        self.false_branch = false_branch
+        self.alt_node = alt_node
 
 
 def buildtree(rows, scoref=entropy):
@@ -146,7 +147,7 @@ def buildtree(rows, scoref=entropy):
         true_branch = buildtree(best_sets[0])
         false_branch = buildtree(best_sets[1])
         return TreeNode(col=best_criteria[0], value=best_criteria[1],
-                            tb=true_branch, fb=false_branch)
+                        true_branch=true_branch, false_branch=false_branch)
     else:
         return TreeNode(results=countunique(rows))
 
@@ -171,14 +172,14 @@ def classify(observation, tree):
         branch = None
         if isinstance(obs, int) or isinstance(obs, float):
             if obs >= tree.value:
-                branch = tree.tb
+                branch = tree.true_branch
             else:
-                branch = tree.fb
+                branch = tree.false_branch
         else:
             if obs == tree.value:
-                branch = tree.tb
+                branch = tree.true_branch
             else:
-                branch = tree.fb
+                branch = tree.false_branch
         return classify(observation, branch)
 
 
