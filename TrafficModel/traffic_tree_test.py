@@ -190,6 +190,8 @@ def classify(observation, tree):
 
 
 data = list(get_data())
+print("Data: ")
+print(data)
 
 print("Building tree...\n")
 result = buildtree(data)
