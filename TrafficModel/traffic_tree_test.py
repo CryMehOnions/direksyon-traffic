@@ -19,6 +19,7 @@ def get_data():
         print("Data retrieval failed.")
 
     data = cur.fetchall()
+    data_list = {}
 
     for row in data:  # Street, Day of Week, Time Interval, Traffic Condition
 
@@ -63,16 +64,16 @@ def get_data():
         new_row.append(interval)
         new_row.append(traffic_con)
 
-        row = tuple(new_row) # TRY APPENDING TO NEW ARRAY AS LIST
+        data_list.append(new_row) # TRY APPENDING TO NEW ARRAY AS LIST
 
         # Result: row[0] = Street, row[1] = Day of Week, row[2] = Time Interval
 
         print("After conversion: ")
-        print(row)
+        print(new_row)
 
         print("\n\n")
 
-    return data
+    return data_list
 
 # USE DECISION TREE
 
@@ -183,14 +184,13 @@ def classify(observation, tree):
         return classify(observation, branch)
 
 
-
-new_data = list(get_data())
+data = list(get_data())
 print("New data: ")
-print(new_data)
+print(data)
 print("\n")
 
 print("Building tree...")
-result = buildtree(new_data)
+result = buildtree(data)
 
 #print("Printing tree...")
 #printtree(result)
