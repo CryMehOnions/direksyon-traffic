@@ -159,9 +159,9 @@ def printtree(tree, indent=''):
         print(str(tree.col)+':'+str(tree.value)+'? ')
         # Print the branches
         print(indent+'T->', end=" ")
-        printtree(tree.tb, indent + '  ')
+        printtree(tree.true_branch, indent + '  ')
         print(indent+'F->', end=" ")
-        printtree(tree.fb, indent + '  ')
+        printtree(tree.false_branch, indent + '  ')
 
 
 def classify(observation, tree):
