@@ -48,7 +48,7 @@ def get_data():
         # convert time to interval value
         day_of_week = timestamp[0]
         split_stamp = timestamp[1].split(':')
-        interval = ((int(split_stamp[0]) * 60) + int(split_stamp[1])) / 15
+        interval = int(round(((int(split_stamp[0]) * 60) + int(split_stamp[1])) / 15))
 
         traffic_con = new_row[2]
 
