@@ -72,7 +72,7 @@ def get_data():
 
         print("\n\n")
 
-        return data
+    return data
 
 # USE DECISION TREE
 
