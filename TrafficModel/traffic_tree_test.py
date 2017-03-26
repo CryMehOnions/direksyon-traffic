@@ -190,7 +190,7 @@ print(new_data)
 print("\n")
 
 print("Building tree...")
-result = buildtree(list(get_data()))
+result = buildtree(new_data)
 
 #print("Printing tree...")
 #printtree(result)
