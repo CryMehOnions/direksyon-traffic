@@ -151,7 +151,6 @@ def buildtree(rows, scoref=entropy):
         return TreeNode(results=countunique(rows))
 
 
-"""
 def printtree(tree, indent=''):
     if tree.results != None:
         print(str(tree.results))
@@ -162,7 +161,6 @@ def printtree(tree, indent=''):
         printtree(tree.tb, indent + '  ')
         print(indent+'F->', end=" ")
         printtree(tree.fb, indent + '  ')
-"""
 
 
 def classify(observation, tree):
@@ -189,8 +187,8 @@ data = list(get_data())
 print("Building tree...")
 result = buildtree(data)
 
-#print("Printing tree...")
-#printtree(result)
+print("Printing tree...")
+printtree(result)
 
 print("Predicting traffic for ORTIGAS-SB-C5_FLYOVER on a Wednesday at time interval 47")
 print(classify(['ORTIGAS-SB-C5_FLYOVER', 'Wed', 47], result))
