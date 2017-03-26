@@ -182,6 +182,11 @@ def classify(observation, tree):
         return classify(observation, branch)
 
 
+new_data = list(get_data())
+print("New data: ")
+print(new_data)
+print("\n")
+
 print("Building tree...")
 result = buildtree(list(get_data()))
 
