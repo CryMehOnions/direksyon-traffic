@@ -150,7 +150,6 @@ def buildtree(rows, scoref=entropy):
     else:
         return TreeNode(results=countunique(rows))
 
-"""
 def printtree(tree, indent=''):
     if tree.results != None:
         print(str(tree.results))
@@ -161,7 +160,6 @@ def printtree(tree, indent=''):
         printtree(tree.tb, indent + '  ')
         print(indent+'F->', end=" ")
         printtree(tree.fb, indent + '  ')
-"""
 
 def classify(observation, tree):
     if tree.results != None:
