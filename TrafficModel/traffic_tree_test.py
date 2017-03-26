@@ -91,7 +91,8 @@ def countunique(rows):
     results = {}
     for row in rows:
         r = row[len(row)-1]
-        if r not in results: results[r] = 0
+        if r not in results:
+            results[r] = 0
         results[r] += 1
     return results
 
@@ -150,11 +151,18 @@ def buildtree(rows, scoref=entropy):
 
 
 def printtree(tree, indent=''):
-
     if tree.results != None:
         print("results: ", str(tree.results), "; error_rate: ", str(tree.error))
     else:
-        print(str(tree.col)+':'+str(tree.value)+'? ')
+        if tree.col == 0:
+            col_name = "Street"
+        elif tree.col == 1:
+            col_name = "Day"
+        elif tree.col == 2:
+            col_name = "Time Interval"
+        else:
+            col_name = str(tree.col)
+        print(col_name + ':'+str(tree.value)+'? ')
         # Print the branches
         print(indent+'T->', end=" ")
         printtree(tree.true_branch, indent + '  ')
