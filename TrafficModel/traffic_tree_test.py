@@ -1,75 +1,78 @@
 import psycopg2
 
-try:
-    conn = psycopg2.connect("host='128.199.106.13' dbname='mmda_traffic' user='direksyon' host='localhost' password='gothere4lyf'")
-    print("Connection successful")
-except:
-    print("DB connect failed.")
 
-cur = conn.cursor()
+def get_data():
+    try:
+        conn = psycopg2.connect("host='128.199.106.13' dbname='mmda_traffic' user='direksyon' host='localhost' password='gothere4lyf'")
+        print("Connection successful")
+    except:
+        print("DB connect failed.")
 
-# check when last update was
-#
+    cur = conn.cursor()
 
-try:
-    cur.execute("""SELECT location_road, location_bound, location_area, timestamp, traffic FROM entries WHERE update_timestamp > timestamp '2017-03-23 00:00:00'""")
-except:
-    print("Data retrieval failed.")
+    # check when last update was
+    #
 
-data = cur.fetchall()
+    try:
+        cur.execute("""SELECT location_road, location_bound, location_area, timestamp, traffic FROM entries WHERE update_timestamp > timestamp '2017-03-23 00:00:00'""")
+    except:
+        print("Data retrieval failed.")
 
-for row in data:  # Street, Day of Week, Time Interval, Traffic Condition
+    data = cur.fetchall()
 
-    new_row = list(row)
-    print("Raw row as list: ")
-    print(new_row)
+    for row in data:  # Street, Day of Week, Time Interval, Traffic Condition
 
-    # combines location elements
-    new_row[0] = '-'.join(new_row[0:3]) # 0 - Street, 1 - timestamp, 2 - traffic
+        new_row = list(row)
+        print("Raw row as list: ")
+        print(new_row)
 
-    del new_row[1]
-    del new_row[1]
+        # combines location elements
+        new_row[0] = '-'.join(new_row[0:3]) # 0 - Street, 1 - timestamp, 2 - traffic
 
-    print("After location combined: ")
-    print(new_row)
+        del new_row[1]
+        del new_row[1]
 
-    # splits timestamp into day and time interval
-    timestamp = new_row[1].split(' ')
-    # timestamp[0] = Day of Week, timestamp[1] = Day, timestamp[2] = Month, timestamp[3] = Year, timestamp[4] = Time
+        print("After location combined: ")
+        print(new_row)
+
+        # splits timestamp into day and time interval
+        timestamp = new_row[1].split(' ')
+        # timestamp[0] = Day of Week, timestamp[1] = Day, timestamp[2] = Month, timestamp[3] = Year, timestamp[4] = Time
 
 
-    # delete not needed time information (timestamp[0] = Day of Week, timestamp[1] = Time)
-    del timestamp[1]  # deletes year
-    del timestamp[1]  # deletes month
-    del timestamp[1]  # deletes day
-    del timestamp[2]  # deletes last thing
+        # delete not needed time information (timestamp[0] = Day of Week, timestamp[1] = Time)
+        del timestamp[1]  # deletes year
+        del timestamp[1]  # deletes month
+        del timestamp[1]  # deletes day
+        del timestamp[2]  # deletes last thing
 
-    timestamp[0] = timestamp[0].replace(',', '')
+        timestamp[0] = timestamp[0].replace(',', '')
 
-    # convert time to interval value
-    day_of_week = timestamp[0]
-    split_stamp = timestamp[1].split(':')
-    interval = ((int(split_stamp[0]) * 60) + int(split_stamp[1])) / 15
+        # convert time to interval value
+        day_of_week = timestamp[0]
+        split_stamp = timestamp[1].split(':')
+        interval = ((int(split_stamp[0]) * 60) + int(split_stamp[1])) / 15
 
-    traffic_con = new_row[2]
+        traffic_con = new_row[2]
 
-    # adds new time elements into row
-    del new_row[1]
-    del new_row[1]
+        # adds new time elements into row
+        del new_row[1]
+        del new_row[1]
 
-    new_row.append(day_of_week)
-    new_row.append(interval)
-    new_row.append(traffic_con)
+        new_row.append(day_of_week)
+        new_row.append(interval)
+        new_row.append(traffic_con)
 
-    row = tuple(new_row)
+        row = tuple(new_row) # TRY APPENDING TO NEW ARRAY AS LIST
 
-    # Result: row[0] = Street, row[1] = Day of Week, row[2] = Time Interval
+        # Result: row[0] = Street, row[1] = Day of Week, row[2] = Time Interval
 
-    print("After conversion: ")
-    print(row)
+        print("After conversion: ")
+        print(row)
 
-    print("\n\n")
+        print("\n\n")
 
+        return data
 
 # USE DECISION TREE
 
@@ -99,12 +102,12 @@ def countunique(rows):
 
 def entropy(rows):
     from math import log
-    log2 = lambda x:log(x)/log(2)
+    log2 = lambda x: log(x)/log(2)
     results = countunique(rows)
     ent = 0.0
     for r in results.keys():
         p = float(results[r])/len(rows)
-        ent = ent-p*log2(p)
+        ent = ent-p * log2(p)
     return ent
 
 
@@ -180,6 +183,6 @@ def classify(observation, tree):
 
 
 print("Building tree...")
-result = buildtree(data)
+result = buildtree(list(get_data()))
 printtree(result)
 print(classify(['ORTIGAS-SB-C5_FLYOVER', 'Wed', 47], result))
