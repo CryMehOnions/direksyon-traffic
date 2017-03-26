@@ -1,7 +1,7 @@
 import psycopg2
 
 
-def get_data():
+#def get_data():
     try:
         conn = psycopg2.connect("host='128.199.106.13' dbname='mmda_traffic' user='direksyon' host='localhost' password='gothere4lyf'")
         print("Connection successful")
@@ -72,10 +72,10 @@ def get_data():
 
         print("\n\n")
 
-    return data
+    #return data
 
 # USE DECISION TREE
-
+""""
 
 def divideset(rows, column, value):
     split_function = None
@@ -182,6 +182,7 @@ def classify(observation, tree):
         return classify(observation, branch)
 
 
+
 new_data = list(get_data())
 print("New data: ")
 print(new_data)
@@ -195,3 +196,5 @@ result = buildtree(list(get_data()))
 
 print("Predicting traffic for ORTIGAS-SB-C5_FLYOVER on a Wednesday at time interval 47")
 print(classify(['ORTIGAS-SB-C5_FLYOVER', 'Wed', 47], result))
+
+"""
