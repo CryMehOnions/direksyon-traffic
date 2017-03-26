@@ -19,7 +19,7 @@ def get_data():
         print("Data retrieval failed.")
 
     data = cur.fetchall()
-    data_list = {}
+    data_list = list()
 
     for row in data:  # Street, Day of Week, Time Interval, Traffic Condition
 
