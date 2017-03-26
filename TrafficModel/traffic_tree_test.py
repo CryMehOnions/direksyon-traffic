@@ -157,9 +157,9 @@ def printtree(tree, indent=''):
     else:
         print(str(tree.col)+':'+str(tree.value)+'? ')
         # Print the branches
-        print(indent+'T->', end = " ")
+        print(indent+'T->',)
         printtree(tree.tb, indent + '  ')
-        print(indent+'F->', end = " ")
+        print(indent+'F->',)
         printtree(tree.fb, indent + '  ')
 
 
