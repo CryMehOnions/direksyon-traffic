@@ -152,15 +152,22 @@ def buildtree(rows, scoref=entropy):
         return TreeNode(results=countunique(rows))
 
 
-def printtree(tree, indent=''):
+def printtree(file, tree, indent=''):
+
     if tree.results != None:
         print(str(tree.results))
+        file.write(str(tree.results))
     else:
         print(str(tree.col)+':'+str(tree.value)+'? ')
+        file.write(str(tree.col)+':'+str(tree.value)+'? ')
         # Print the branches
         print(indent+'T->', end=" ")
+        file.write(indent+'T->', end=" ")
+
         printtree(tree.true_branch, indent + '  ')
         print(indent+'F->', end=" ")
+        file.write(indent+'F->', end=" ")
+
         printtree(tree.false_branch, indent + '  ')
 
 
@@ -188,8 +195,9 @@ data = list(get_data())
 print("Building tree...")
 result = buildtree(data)
 
+send_file = open("C:\Users\natha\Desktop\output.txt")
 print("Printing tree...")
-printtree(result)
+printtree(send_file, result)
 
 print("Predicting traffic for ORTIGAS-SB-C5_FLYOVER on a Wednesday at time interval 47")
 print(classify(['ORTIGAS-SB-C5_FLYOVER', 'Wed', 47], result))
