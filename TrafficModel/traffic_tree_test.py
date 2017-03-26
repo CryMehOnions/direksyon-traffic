@@ -24,7 +24,7 @@ def get_data():
     for row in data:  # Street, Day of Week, Time Interval, Traffic Condition
 
         new_row = list(row)
-        print("Raw row as list: ")
+        print("Raw row: ")
         print(new_row)
 
         # combines location elements
@@ -33,13 +33,9 @@ def get_data():
         del new_row[1]
         del new_row[1]
 
-        print("After location combined: ")
-        print(new_row)
-
         # splits timestamp into day and time interval
         timestamp = new_row[1].split(' ')
         # timestamp[0] = Day of Week, timestamp[1] = Day, timestamp[2] = Month, timestamp[3] = Year, timestamp[4] = Time
-
 
         # delete not needed time information (timestamp[0] = Day of Week, timestamp[1] = Time)
         del timestamp[1]  # deletes year
@@ -112,13 +108,14 @@ def entropy(rows):
 
 
 class TreeNode:
-    def __init__(self, col=-1, value=None, results=None, true_branch=None, false_branch=None, alt_node=None):
+    def __init__(self, col=-1, value=None, results=None, true_branch=None, false_branch=None, alt_node=None, error=0):
         self.col = col
         self.value = value
         self.results = results
         self.true_branch = true_branch
         self.false_branch = false_branch
         self.alt_node = alt_node
+        self.error = 0
 
 
 def buildtree(rows, scoref=entropy):
@@ -152,22 +149,16 @@ def buildtree(rows, scoref=entropy):
         return TreeNode(results=countunique(rows))
 
 
-def printtree(file, tree, indent=''):
+def printtree(tree, indent=''):
 
     if tree.results != None:
-        print(str(tree.results))
-        file.write(str(tree.results))
+        print("results: ", str(tree.results), "; error_rate: ", str(tree.error))
     else:
         print(str(tree.col)+':'+str(tree.value)+'? ')
-        file.write(str(tree.col)+':'+str(tree.value)+'? ')
         # Print the branches
         print(indent+'T->', end=" ")
-        file.write(indent+'T->', end=" ")
-
         printtree(tree.true_branch, indent + '  ')
         print(indent+'F->', end=" ")
-        file.write(indent+'F->', end=" ")
-
         printtree(tree.false_branch, indent + '  ')
 
 
@@ -192,12 +183,10 @@ def classify(observation, tree):
 
 data = list(get_data())
 
-print("Building tree...")
+print("Building tree...\n")
 result = buildtree(data)
 
-send_file = open("C:\Users\natha\Desktop\output.txt")
-print("Printing tree...")
-printtree(send_file, result)
+printtree(result)
 
 print("Predicting traffic for ORTIGAS-SB-C5_FLYOVER on a Wednesday at time interval 47")
 print(classify(['ORTIGAS-SB-C5_FLYOVER', 'Wed', 47], result))
