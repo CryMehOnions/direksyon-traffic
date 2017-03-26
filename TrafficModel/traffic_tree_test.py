@@ -14,7 +14,7 @@ def get_data():
     #
 
     try:
-        cur.execute("""SELECT location_road, location_bound, location_area, timestamp, traffic FROM entries WHERE update_timestamp > timestamp '2017-03-20 8:00:00' AND update_timestamp < timestamp '2017-03-20 12:00:00'""")
+        cur.execute("""SELECT location_road, location_bound, location_area, timestamp, traffic FROM entries WHERE update_timestamp > timestamp '2017-03-20 10:00:00' AND update_timestamp < timestamp '2017-03-20 12:00:00'""")
     except:
         print("Data retrieval failed.")
 
@@ -71,7 +71,7 @@ def get_data():
         print("After conversion: ")
         print(new_row)
 
-        print("\n\n")
+        print("\n")
 
     return data_list
 
@@ -185,9 +185,6 @@ def classify(observation, tree):
 
 
 data = list(get_data())
-print("New data: ")
-print(data)
-print("\n")
 
 print("Building tree...")
 result = buildtree(data)
