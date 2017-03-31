@@ -17,7 +17,7 @@ def get_data():
     #
 
     try:
-        cur.execute("""SELECT location_road, location_bound, location_area, timestamp, traffic FROM entries WHERE update_timestamp > timestamp '2017-03-20 00:00:00' AND update_timestamp < timestamp '2017-03-21 00:00:00'""")
+        cur.execute("""SELECT location_road, location_bound, location_area, timestamp, traffic FROM entries WHERE update_timestamp > timestamp '2017-03-20 06:00:00' AND update_timestamp < timestamp '2017-03-20 06:00:00'""")
     except:
         print("Data retrieval failed.")
 
@@ -199,7 +199,7 @@ print(data)
 print("Building tree...\n")
 result = buildtree(data)
 
-printtree(result)
+# printtree(result)
 
 time_end = time.clock()
 instance_count = data.__len__()
