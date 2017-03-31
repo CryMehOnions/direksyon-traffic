@@ -1,5 +1,8 @@
 import psycopg2
+import time
 
+time_start = time.clock()
+instance_count = 0
 
 def get_data():
     try:
@@ -152,14 +155,14 @@ def buildtree(rows, scoref=entropy):
 
 def printtree(tree, indent=''):
     if tree.results != None:
-        print("results: ", str(tree.results), "; error_rate: ", str(tree.error))
+        print("Prediction: ", str(tree.results), "; error_rate: ", str(tree.error))
     else:
         if tree.col == 0:
-            col_name = "Street"
+            col_name = "STREET"
         elif tree.col == 1:
-            col_name = "Day"
+            col_name = "DAY OF WEEK"
         elif tree.col == 2:
-            col_name = "Time Interval"
+            col_name = "TIME INTERVAL"
         else:
             col_name = str(tree.col)
         print(col_name + ':'+str(tree.value)+'? ')
@@ -198,5 +201,14 @@ result = buildtree(data)
 
 printtree(result)
 
-print("Predicting traffic for ORTIGAS-SB-C5_FLYOVER on a Wednesday at time interval 47")
+time_end = time.clock()
+instance_count = data.__len__()
+process_time = time_end - time_start
+
+print("Instances: ")
+print(instance_count)
+print("Processing Time: ")
+print(process_time)
+
+# print("Predicting traffic for ORTIGAS-SB-C5_FLYOVER on a Wednesday at time interval 47")
 print(classify(['ORTIGAS-SB-C5_FLYOVER', 'Wed', 47], result))
