@@ -211,4 +211,4 @@ print("Processing Time: ")
 print(process_time)
 
 # print("Predicting traffic for ORTIGAS-SB-C5_FLYOVER on a Wednesday at time interval 47")
-print(classify(['ORTIGAS-SB-C5_FLYOVER', 'Wed', 47], result))
+#print(classify(['ORTIGAS-SB-C5_FLYOVER', 'Wed', 47], result))
