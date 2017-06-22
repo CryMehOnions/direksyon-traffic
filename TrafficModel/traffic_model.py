@@ -195,23 +195,23 @@ def initialize_tree():
 
         print("\n")
 
-        data = list(data_list)
-        print("Data: ")
-        print(data)
+    data = list(data_list)
+    print("Data: ")
+    print(data)
 
-        print("Building tree...\n")
-        result = buildtree(data)
+    print("Building tree...\n")
+    result = buildtree(data)
 
-        # printtree(result)
+    # printtree(result)
 
-        time_end = time.clock()
-        instance_count = data.__len__()
-        process_time = time_end - time_start
+    time_end = time.clock()
+    instance_count = data.__len__()
+    process_time = time_end - time_start
 
-        print("Instances: ")
-        print(instance_count)
-        print("Processing Time: ")
-        print(process_time)
+    print("Instances: ")
+    print(instance_count)
+    print("Processing Time: ")
+    print(process_time)
 
 
 def get_prediction(street, date):
