@@ -1,6 +1,7 @@
 import psycopg2
 import time
 import sys
+import pickle
 
 
 # USE DECISION TREE
@@ -140,7 +141,7 @@ def initialize_tree():
     #
 
     try:
-        cur.execute("""SELECT location_road, location_bound, location_area, timestamp, traffic FROM entries WHERE update_timestamp > timestamp '2017-03-19 12:00:00' AND update_timestamp < timestamp '2017-03-21 00:00:00'""")
+        cur.execute("""SELECT location_road, location_bound, location_area, timestamp, traffic FROM entries WHERE update_timestamp > timestamp '2017-03-19 11:00:00' AND update_timestamp < timestamp '2017-03-21 05:00:00'""")
     except:
         print("Data retrieval failed.")
 
@@ -213,15 +214,23 @@ def initialize_tree():
     print("Processing Time: ")
     print(process_time)
 
+    # SAVE TREE
+    pickle.dump(result, open("model.p", "wb"))
+
 
 def get_prediction(street, date):
     # load tree data
-
-    return 0
+    data = pickle.load(open("model.p", "rb"))
 
 
 def update_tree(street, date, condition):
     return 0
+
+
+def print_traffic_model():
+    data = pickle.load(open("model.p", "rb"))
+    printtree(data)
+
 
 # MAIN
 
@@ -235,6 +244,8 @@ elif str(arguments[1]) == 'predict':
     print(get_prediction(str(arguments[1], str(arguments[2]))))
 elif str(arguments[1]) == 'update':
     update_tree(str(arguments[1]), str(arguments[2]), str(arguments[3]))
+elif str(arguments[1]) == 'print_tree':
+    print_traffic_model()
 
 
 
