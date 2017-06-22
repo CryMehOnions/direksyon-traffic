@@ -53,6 +53,9 @@ class TreeNode:
 
 
 def buildtree(rows, scoref=entropy):
+
+    print("Building tree...\n")
+
     if len(rows) == 0: return TreeNode()
     current_score = scoref(rows)
 
@@ -129,6 +132,7 @@ def initialize_tree():
 
     time_start = time.clock()
 
+    print("Attempting to connect...")
     try:
         conn = psycopg2.connect("host='128.199.106.13' dbname='mmda_traffic' user='direksyon' host='localhost' password='gothere4lyf'")
         print("Connection successful")
@@ -140,8 +144,9 @@ def initialize_tree():
     # check when last update was
     #
 
+    print("Querying database...")
     try:
-        cur.execute("""SELECT location_road, location_bound, location_area, timestamp, traffic FROM entries WHERE update_timestamp > timestamp '2017-03-19 11:00:00' AND update_timestamp < timestamp '2017-03-21 05:00:00'""")
+        cur.execute("""SELECT location_road, location_bound, location_area, timestamp, traffic FROM entries WHERE update_timestamp > timestamp '2017-03-19 00:00:00' AND update_timestamp < timestamp '2017-03-20 00:00:00'""")
     except:
         print("Data retrieval failed.")
 
@@ -187,7 +192,7 @@ def initialize_tree():
         new_row.append(interval)
         new_row.append(traffic_con)
 
-        data_list.append(new_row) # TRY APPENDING TO NEW ARRAY AS LIST
+        data_list.append(new_row)
 
         # Result: row[0] = Street, row[1] = Day of Week, row[2] = Time Interval
 
@@ -197,11 +202,10 @@ def initialize_tree():
         print("\n")
 
     data = list(data_list)
-    print("Data: ")
-    print(data)
+    print("Data retrieved.")
 
-    print("Building tree...\n")
     result = buildtree(data)
+    print("Tree built.")
 
     # printtree(result)
 
@@ -215,7 +219,12 @@ def initialize_tree():
     print(process_time)
 
     # SAVE TREE
-    pickle.dump(result, open("model.p", "wb"))
+    print("Saving model...")
+    try:
+        pickle.dump(result, open("model.p", "wb"))
+        print("Model saved.")
+    except:
+        print("Saving failed.")
 
 
 def get_prediction(street, date):
