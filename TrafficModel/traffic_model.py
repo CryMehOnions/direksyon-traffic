@@ -229,11 +229,11 @@ arguments = sys.argv
 
 print(arguments)
 
-if str(arguments[0]) == 'init':
+if str(arguments[1]) == 'init':
     initialize_tree()
-elif str(arguments[0]) == 'predict':
+elif str(arguments[1]) == 'predict':
     print(get_prediction(str(arguments[1], str(arguments[2]))))
-elif str(arguments[0]) == 'update':
+elif str(arguments[1]) == 'update':
     update_tree(str(arguments[1]), str(arguments[2]), str(arguments[3]))
 
 
