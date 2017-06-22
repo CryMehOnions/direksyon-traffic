@@ -140,7 +140,7 @@ def initialize_tree():
     #
 
     try:
-        cur.execute("""SELECT location_road, location_bound, location_area, timestamp, traffic FROM entries WHERE update_timestamp > timestamp '2017-03-19 00:00:00' AND update_timestamp < timestamp '2017-03-21 00:00:00'""")
+        cur.execute("""SELECT location_road, location_bound, location_area, timestamp, traffic FROM entries WHERE update_timestamp > timestamp '2017-03-19 12:00:00' AND update_timestamp < timestamp '2017-03-21 00:00:00'""")
     except:
         print("Data retrieval failed.")
 
