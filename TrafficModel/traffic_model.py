@@ -144,7 +144,7 @@ def initialize_tree():
 
     print("Querying database...")
     try:
-        cur.execute("""SELECT location_road, location_bound, location_area, timestamp, traffic FROM entries WHERE location_road = 'SLEX' AND location_bound = 'NB' AND location_area = 'MAGALLANES'""")
+        cur.execute("""SELECT location_road, location_bound, location_area, timestamp, traffic FROM entries WHERE location_road = 'EDSA' AND location_bound = 'NB' AND location_area = 'MALL_OF_ASIA'""")
     except:
         print("Data retrieval failed.")
 
