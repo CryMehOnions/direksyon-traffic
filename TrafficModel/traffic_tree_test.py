@@ -1,78 +1,8 @@
 import psycopg2
 import time
+import sys
+import pickle
 
-time_start = time.clock()
-instance_count = 0
-
-def get_data():
-    try:
-        conn = psycopg2.connect("host='128.199.106.13' dbname='mmda_traffic' user='direksyon' host='localhost' password='gothere4lyf'")
-        print("Connection successful")
-    except:
-        print("DB connect failed.")
-
-    cur = conn.cursor()
-
-    # check when last update was
-    #
-
-    try:
-        cur.execute("""SELECT location_road, location_bound, location_area, timestamp, traffic FROM entries WHERE update_timestamp > timestamp '2017-03-19 00:00:00' AND update_timestamp < timestamp '2017-03-21 00:00:00'""")
-    except:
-        print("Data retrieval failed.")
-
-    data = cur.fetchall()
-    data_list = list()
-
-    for row in data:  # Street, Day of Week, Time Interval, Traffic Condition
-
-        new_row = list(row)
-        print("Raw row: ")
-        print(new_row)
-
-        # combines location elements
-        new_row[0] = '-'.join(new_row[0:3]) # 0 - Street, 1 - timestamp, 2 - traffic
-
-        del new_row[1]
-        del new_row[1]
-
-        # splits timestamp into day and time interval
-        timestamp = new_row[1].split(' ')
-        # timestamp[0] = Day of Week, timestamp[1] = Day, timestamp[2] = Month, timestamp[3] = Year, timestamp[4] = Time
-
-        # delete not needed time information (timestamp[0] = Day of Week, timestamp[1] = Time)
-        del timestamp[1]  # deletes year
-        del timestamp[1]  # deletes month
-        del timestamp[1]  # deletes day
-        del timestamp[2]  # deletes last thing
-
-        timestamp[0] = timestamp[0].replace(',', '')
-
-        # convert time to interval value
-        day_of_week = timestamp[0]
-        split_stamp = timestamp[1].split(':')
-        interval = int(round(((int(split_stamp[0]) * 60) + int(split_stamp[1])) / 15))
-
-        traffic_con = new_row[2]
-
-        # adds new time elements into row
-        del new_row[1]
-        del new_row[1]
-
-        new_row.append(day_of_week)
-        new_row.append(interval)
-        new_row.append(traffic_con)
-
-        data_list.append(new_row) # TRY APPENDING TO NEW ARRAY AS LIST
-
-        # Result: row[0] = Street, row[1] = Day of Week, row[2] = Time Interval
-
-        print("After conversion: ")
-        print(new_row)
-
-        print("\n")
-
-    return data_list
 
 # USE DECISION TREE
 
@@ -123,6 +53,7 @@ class TreeNode:
 
 
 def buildtree(rows, scoref=entropy):
+
     if len(rows) == 0: return TreeNode()
     current_score = scoref(rows)
 
@@ -192,23 +123,140 @@ def classify(observation, tree):
         return classify(observation, branch)
 
 
-data = list(get_data())
-print("Data: ")
-print(data)
+# TREE LOADING/SAVING
 
-print("Building tree...\n")
-result = buildtree(data)
+# SYSTEM ARGUMENTS
+def initialize_tree():
 
-# printtree(result)
+    time_start = time.clock()
 
-time_end = time.clock()
-instance_count = data.__len__()
-process_time = time_end - time_start
+    print("Attempting to connect...")
+    try:
+        conn = psycopg2.connect("host='128.199.106.13' dbname='mmda_traffic' user='direksyon' host='localhost' password='gothere4lyf'")
+        print("Connection successful")
+    except:
+        print("DB connect failed.")
 
-print("Instances: ")
-print(instance_count)
-print("Processing Time: ")
-print(process_time)
+    cur = conn.cursor()
+
+    # check when last update was
+    #
+
+    print("Querying database...")
+    try:
+        cur.execute("""SELECT location_road, location_bound, location_area, timestamp, traffic FROM entries WHERE update_timestamp > timestamp '2017-03-19 12:00:00' AND update_timestamp < timestamp '2017-03-19 17:00:00'""")
+    except:
+        print("Data retrieval failed.")
+
+    data = cur.fetchall()
+    data_list = list()
+
+    for row in data:  # Street, Day of Week, Time Interval, Traffic Condition
+
+        new_row = list(row)
+        print("Raw row: ")
+        print(new_row)
+
+        # combines location elements
+        new_row[0] = '-'.join(new_row[0:3]) # 0 - Street, 1 - timestamp, 2 - traffic
+
+        del new_row[1]
+        del new_row[1]
+
+        # splits timestamp into day and time interval
+        timestamp = new_row[1].split(' ')
+        # timestamp[0] = Day of Week, timestamp[1] = Day, timestamp[2] = Month, timestamp[3] = Year, timestamp[4] = Time
+
+        # delete not needed time information (timestamp[0] = Day of Week, timestamp[1] = Time)
+        del timestamp[1]  # deletes year
+        del timestamp[1]  # deletes month
+        del timestamp[1]  # deletes day
+        del timestamp[2]  # deletes last thing
+
+        timestamp[0] = timestamp[0].replace(',', '')
+
+        # convert time to interval value
+        day_of_week = timestamp[0]
+        split_stamp = timestamp[1].split(':')
+        interval = int(round(((int(split_stamp[0]) * 60) + int(split_stamp[1])) / 15))
+
+        traffic_con = new_row[2]
+
+        # adds new time elements into row
+        del new_row[1]
+        del new_row[1]
+
+        new_row.append(day_of_week)
+        new_row.append(interval)
+        new_row.append(traffic_con)
+
+        data_list.append(new_row)
+
+        # Result: row[0] = Street, row[1] = Day of Week, row[2] = Time Interval
+
+        print("After conversion: ")
+        print(new_row)
+
+        print("\n")
+
+    data = list(data_list)
+    print("Data retrieved.")
+
+    print("Building tree...\n")
+    result = buildtree(data)
+    print("Tree built.")
+
+    # printtree(result)
+
+    time_end = time.clock()
+    instance_count = data.__len__()
+    process_time = time_end - time_start
+
+    print("Instances: ")
+    print(instance_count)
+    print("Processing Time: ")
+    print(process_time)
+
+    # SAVE TREE
+    print("Saving model...")
+    try:
+        pickle.dump(result, open("model.p", "wb"))
+        print("Model saved.")
+    except:
+        print("Saving failed.")
+
+
+def get_prediction(street, date):
+    # load tree data
+    data = pickle.load(open("model.p", "rb"))
+
+
+def update_tree(street, date, condition):
+    return 0
+
+
+def print_traffic_model():
+    data = pickle.load(open("model.p", "rb"))
+    printtree(data)
+
+
+# MAIN
+
+arguments = sys.argv
+
+print(arguments)
+
+if str(arguments[1]) == 'init':
+    initialize_tree()
+elif str(arguments[1]) == 'predict':
+    print(get_prediction(str(arguments[1], str(arguments[2]))))
+elif str(arguments[1]) == 'update':
+    update_tree(str(arguments[1]), str(arguments[2]), str(arguments[3]))
+elif str(arguments[1]) == 'print_tree':
+    print_traffic_model()
+
+
+
 
 # print("Predicting traffic for ORTIGAS-SB-C5_FLYOVER on a Wednesday at time interval 47")
 #print(classify(['ORTIGAS-SB-C5_FLYOVER', 'Wed', 47], result))
