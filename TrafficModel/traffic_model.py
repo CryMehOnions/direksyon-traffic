@@ -227,6 +227,8 @@ def update_tree(street, date, condition):
 
 arguments = sys.argv
 
+print(arguments)
+
 if str(arguments[0]) == 'init':
     initialize_tree()
 elif str(arguments[0]) == 'predict':
