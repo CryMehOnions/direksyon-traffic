@@ -201,9 +201,8 @@ def initialize_tree():
 
     data = list(data_list)
     print("Data retrieved.")
-	print("Printing data...")
-	print(data)
-
+    print("Printing data...")
+    print(data)
     print("Building tree...\n")
     result = buildtree(data)
     print("Tree built.")
