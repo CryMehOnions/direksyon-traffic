@@ -229,7 +229,7 @@ def initialize_tree():
 def get_prediction(street, day, time):
     # load tree data
     data = pickle.load(open("model.p", "rb"))
-    print(classify(street, day, time))
+    print(classify([street, day, time], data))
 
 
 def update_tree(street, date, condition):
