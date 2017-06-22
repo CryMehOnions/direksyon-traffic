@@ -144,7 +144,7 @@ def initialize_tree():
 
     print("Querying database...")
     try:
-        cur.execute("""SELECT location_road, location_bound, location_area, timestamp, traffic FROM entries WHERE extract(hour from update_timestamp) > 12 AND extract(hour from update_timestamp) < 14 AND update_timestamp > timestamp '2017-06-20 00:00:00'""")
+        cur.execute("""SELECT location_road, location_bound, location_area, timestamp, traffic FROM entries WHERE extract(hour from update_timestamp) > 12 AND extract(hour from update_timestamp) < 14 AND update_timestamp > timestamp '2017-06-10 00:00:00'""")
     except:
         print("Data retrieval failed.")
 
