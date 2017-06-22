@@ -226,7 +226,7 @@ def initialize_tree():
         print("Saving failed.")
 
 
-def get_prediction(street, date, time):
+def get_prediction(street, day, time):
     # load tree data
     data = pickle.load(open("model.p", "rb"))
     print(classify(street, day, time))
