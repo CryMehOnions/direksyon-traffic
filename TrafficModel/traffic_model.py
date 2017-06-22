@@ -250,7 +250,7 @@ print(arguments)
 if str(arguments[1]) == 'init':
     initialize_tree()
 elif str(arguments[1]) == 'predict':
-    print(get_prediction(str(arguments[2]), str(arguments[3]), arguments[4])))
+    print(get_prediction(str(arguments[2]), str(arguments[3]), arguments[4]))
 elif str(arguments[1]) == 'update':
     update_tree(str(arguments[1]), str(arguments[2]), str(arguments[3]))
 elif str(arguments[1]) == 'print_tree':
