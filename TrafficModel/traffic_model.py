@@ -499,7 +499,7 @@ class request_handler(BaseHTTPServer.BaseHTTPRequestHandler):
         else:
             s.send_response(200)
             s.send_header("Content-type", "text/html")
-		    s.end_headers()
+            s.end_headers()
             s.wfile.write("<html><head><title>Prediction Result</title></head>")
             s.wfile.write("<body><p>Invalid Arguments</p></body></html>")
 			
