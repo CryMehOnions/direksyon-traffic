@@ -1,6 +1,6 @@
 import psycopg2
 
-  print("Attempting to connect...")
+print("Attempting to connect...")
     try:
         conn = psycopg2.connect("host='128.199.106.13' dbname='mmda_traffic' user='direksyon' host='localhost' password='gothere4lyf'")
         print("Connection successful")
@@ -19,4 +19,4 @@ import psycopg2
         print("Data retrieval failed.")
 
     data = cur.fetchall()
-	print(data)
+    print(data)
