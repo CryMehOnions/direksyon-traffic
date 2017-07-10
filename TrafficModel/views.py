@@ -19,7 +19,7 @@ def getPrediction(request):
 
 			prediction = getPrediction(street, segment, date, time)
 
-			print prediction
+			print(prediction)
 		else:
 			print "Something happened"
 	else:
