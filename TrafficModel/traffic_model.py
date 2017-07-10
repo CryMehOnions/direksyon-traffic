@@ -3,7 +3,6 @@ import time
 import datetime
 import sys
 import pickle
-import BaseHTTPServer
 
 
 ERROR_THRESHOLD = 20
@@ -73,7 +72,7 @@ class TreeNode:
         self.true_branch = true_branch
         self.false_branch = false_branch
         self.alt_node = alt_node
-		self.instances = 0
+        self.instances = 0
         self.error = 0
 
 
@@ -159,12 +158,12 @@ def create_alternate_tree(main_node, result):
 	
 	
 def promote_alternate_tree(main_node):
-	main_node.col = main_node.alt_node.col
-	main_node.value = main_node.alt_node.value
-	main_node.results = main_node.alt_node.results
-	main_node.true_branch = main_node.alt_node.true_branch
-	main_node.false_branch = main_node.alt_node.false_branch
-	main_node.alt_node = None
+    main_node.col = main_node.alt_node.col
+    main_node.value = main_node.alt_node.value
+    main_node.results = main_node.alt_node.results
+    main_node.true_branch = main_node.alt_node.true_branch
+    main_node.false_branch = main_node.alt_node.false_branch
+    main_node.alt_node = None
     main_node.error = main_node.alt_node.error
 
 # DATA VALIDATION
