@@ -122,9 +122,233 @@ def classify(observation, tree):
                 branch = tree.false_branch
         return classify(observation, branch)
 
+def convert_segment(segment):
+    return {
+        #C5
+        'LIBIS_FLYOVER' : 'Libis Flyover',
+        'TANDANG_SORA' : 'Tandang Sora',
+        'C.P._GARCIA' : 'C.P. Garcia',
+        'BONNY_SERRANO' : 'Bonny Serrano',
+        'UNIVERSITY_OF_THE_PHILIPPINES' : 'University of the Philippines',
+        'KALAYAAN' : 'Kalayaan',
+        'ATENEO_DE_MANILA_UNIVERSITY' : 'Ateneo De Manila University',
+        'LANUZA' : 'Lanuza',
+        'XAVIERVILLE' : 'Xavierville',
+        'MIRIAM_COLLEGE' : 'Miriam College',
+		'AURORA_BOULEVARD' : 'Aurora Boulevard',
+        'J._VARGAS' : 'J. Vargas',
+        'CAPITOL_HILLS' : 'Capitol Hills',
+        'MARKET!_MARKET!' : 'Market! Market!',
+        'EASTWOOD' : 'Eastwood',
+        'BAGONG_ILOG' : 'Bagong Ilog',
+        'GREEN_MEADOWS' : 'Green Meadows'
+        # COMMONWEALTH
+        'DILIMAN_PREPARATORY SCHOOL' : 'Diliman Preparatory School',
+        'UNIVERSITY_AVE' : 'University Ave',
+        'GENERAL_MALVAR_HOSPITAL' : 'General Malvar Hospital',
+        'EVER_GROTESCO' : 'Ever Grotesco',
+        'TANDANG_SORA_EASTSIDE' : 'Tandang Sora Eastside',
+        'BATASAN' : 'Batasan',
+        'PHILCOA' : 'Philcoa', 
+        'TANDANG_SORA_WESTSIDE' : 'Tandang Sora Westside',
+        'ST._PETER\'S_CHURCH' : 'St. Peter\'s Church',
+        'MAGSAYSAY_AVE' : 'Magsaysay Ave',
+        'CENTRAL_AVE' : 'Central Ave',
+        'ZUZUAREGI' : 'Zuzuarregi',
+        # EDSA
+        'NORTH_AVE.' : 'North Ave.',
+        'ORENSE' : 'Orense',
+        'BUENDIA' : 'Buendia',
+        'TRAMO' : 'Tramo',
+        'MAIN_AVE.' : 'Main Ave.',
+        'TRINOMA' : 'Trinoma',
+        'TIMOG_SERVICE_ROAD' : 'Timog',
+        'SHAW_BLVD.' : 'Shaw Blvd.',
+        'AYALA_AVE.' : 'Ayala Ave.',
+        'AURORA_BLVD.' : 'Aurora Boulevard',
+        'MACAPAGAL_AVE.' : 'Macapagal Ave.',
+        'AURORA_BLVD._SERVICE_ROAD' : 'Aurora Blvd.',
+        'MC_ARTHUR_-_FARMERS\'' : 'Mc Arthur - Farmers',
+        'SHAW_BLVD._SERVICE_ROAD' : 'Shaw Blvd.',
+        'TIMOG' : 'Timog',
+        'AYALA_AVE._SERVICE_ROAD' : 'Ayala Ave.',
+        'PIONEER_-_BONI' : 'Pioneer - Boni',
+        'KAMUNING' : 'Kamuning',
+        'ORTIGAS_AVE._SERVICE_ROAD' : 'Ortigas Ave.',
+        'NEW_YORK_-_NEPA_Q-MART' : 'New York - Nepa Q-Mart',
+        'RELIANCE' : 'Reliance',
+        'SANTOLAN_SERVICE_ROAD' : 'Santolan',
+        'F.B._HARRISON' : 'F.B. Harrison',
+        'TAFT_AVE.' : 'Taft Ave.',
+        'MAGALLANES' : 'Magallanes',
+        'ARNAIZ_-_PASAY_ROAD' : 'Arnaiz - Pasay Road',
+        'ORTIGAS_AVE.' : 'Ortigas Ave.',
+        'PIONEER_' : 'Pioneer - Boni',
+        'WHITE_PLAINS_-_CONNECTICUT' : 'White Plains - Connecticut',
+        'KAINGIN_ROAD' : 'Kaingin',
+        'KAMUNING_SERVICE_ROAD' : 'Kamuning',
+        'ROXAS_BOULEVARD' : 'Roxas Boulevard',
+        'SM_MEGAMALL' : 'SM Megamall',
+        'P._TUAZON' : 'P. Tuazon',
+        'GUADALUPE' : 'Guadalupe',
+        'MC_ARTHUR_-_FARMERS_SERVICE_ROAD' : 'Mc Arthur - Farmers',
+        'P._TUAZON_SERVICE_ROAD' : 'P. Tuazon',
+        'QUEZON_AVE.' : 'Quezon Ave.',
+        'KALAYAAN_-_ESTRELLA' : 'Kalayaan - Estrella',
+        'BALINTAWAK' : 'Balintawak',
+        'MONTE_DE_PIEDAD' : 'Monte De Piedad',
+        'SANTOLAN' : 'Santolan',
+        'BANSALANGIN' : 'Bansalangin',
+        'MALIBAY' : 'Malibay',
+        'NIA_ROAD' : 'NIA Road',
+        'MU\\xc3\\xb1OZ' : 'Munoz',
+        'Mu\\xc3\\x83\\xc2\\xb1oz' : 'Munoz'
+        #ESPANA
+        'WELCOME_ROTUNDA' : 'Welcome Rotunda',
+        'P.NOVAL' : 'P. Noval',
+        'BLUEMENTRITT' : 'Bluementritt',
+        'LERMA' : 'Lerma',
+        'GOV._FORBES_-_LACSON' : 'Gov. Forbes - Lacson',
+        'VICENTE_CRUZ' : 'Vicente Cruz',
+        'A._MACEDA' : 'A. Maceda',
+        'ANTIPOLO' : 'Antipolo',
+        #MARCOS HIGHWAY
+        'ROBINSON\'S_METRO_EAST' : 'Robinson\'s Metro East',
+        'LRT-2_STATION' : 'LRT-2 Station',
+        'AMANG_RODRIGUEZ' : 'Amang Rodriguez',
+        'DONA_JUANA' : 'Dona Juana',
+        'F._MARIANO_AVE' : 'F. Mariano Ave',
+        'SAN_BENILDO_SCHOOL' : 'San Benildo School',
+        'SM_CITY_MARIKINA' : 'SM City Marikina',
+        #ORTIGAS
+        'EDSA_SHRINE' : 'EDSA Shrine',
+        'SAN_MIGUEL_AVE' : 'San Miguel Ave',
+        'GREENMEADOWS_AVE' : 'Greenmeadows Ave',
+        'C5_FLYOVER' : 'C5 Flyover',
+        'ROOSEVELT' : 'Roosevelt',
+        'MEDICAL_CITY' : 'Medical City',
+        'MERALCO_AVE' : 'Meralco Ave',
+        'MADISON' : 'Madison',
+        'WILSON' : 'Wilson',
+        'LA_SALLE_GREENHILLS' : 'La Salle Greenhills',
+        'CLUB_FILIPINO' : 'Club Filipino',
+        'SANTOLAN' : 'Santolan',
+        'LANUZA_AVE' : 'Lanuza Ave',
+        'CONNECTICUT' : 'Connecticut',
+        'POEA' : 'POEA',
+        #QUEZOZ AVE
+        'STO._DOMINGO' : 'Sto. Domingo',
+        'MAYON' : 'Mayon',
+        'SCOUT_BORROMEO' : 'Scout Borromeo',
+        'SCOUT_ALBANO' : 'Scout Albano',
+        'SGT._ESGUERA' : 'SGT. Esguera',
+        'APO_AVENUE' : 'Apo Avenue',
+        'ROCES_AVENUE' : 'Roces Avenue',
+        'G._ARANETA_AVE.' : 'G. Araneta Ave.',
+        'SPEAKER_PEREZ' : 'Speaker Perez',
+        'SCOUT_SANTIAGO' : 'Scout Santiago',
+        'SCOUT_CHUATOCO' : 'Scout Chuatoco',
+        'BANTAYOG_ROAD' : 'Bantayog Road',
+        'CORDILLERA' : 'Cordillera',
+        'BANAWE' : 'Banawe',
+        'SCOUT_MAGBANUA' : 'Scout Magbanua',
+        'EDSA_SERVICE_ROAD' : 'EDSA',
+        'ELLIPTICAL_ROAD' : 'Elliptical Road',
+        'AGHAM_ROAD' : 'Agham Road',
+        'DR._GARCIA_SR.' : 'Dr. Garcia Sr.',
+        'SCOUT_REYES' : 'Scout Reyes',
+        'KANLAON' : 'Kanlaon',
+        'BIAK_NA_BATO' : 'Biak na Bato',
+        'ROOSEVELT_AVENUE' : 'Roosevelt Avenue',
+        'EDSA' : 'EDSA',
+        'D._TUAZON' : 'D. Tuazon',
+        #ROXAS BLVD
+        'AIRPORT_ROAD' : 'Airport Road',
+        'QUIRINO' : 'Quirino',
+        'ANDA_CIRCLE' : 'Anda Circle',
+        'EDSA_EXTENSION_CIRCLE' : 'EDSA Extension',
+        'BUENDIA_SERVICE_ROAD' : 'Buendia',
+        'RAJAH_SULAYMAN' : 'Rajah Sulayman',
+        'BACLARAN' : 'Baclaran',
+        'EDSA_EXTENSION' : 'Edsa Extension',
+        'PABLO_OCAMPO' : 'Pablo Ocampo',
+        'COASTAL_ROAD' : 'Coastal Road',
+        'FINANCE_ROAD' : 'Finance Road',
+        'U.N._AVENUE' : 'U.N. Avenue',
+        'PEDRO_GIL' : 'Pedro Gil',
+        #SLEX
+        'BICUTAN_EXIT' : 'Bicutan Exit',
+        'MERVILLE_EXIT' : 'Merville Exit',
+        'ALABANG_EXIT' : 'Alabang Exit',
+        'C5_ON-RAMP' : 'C5 On-ramp',
+        'SUCAT_EXIT' : 'Sucat Exit',
+        'NICHOLS' : 'Nichols'
+    }.get(segment, segment)
+		
+def convert_street(street):
+    return {
+        'COMMONWEALTH' : 'Commonwealth',
+        'ESPA\\xc3\\x91A' : 'Espana',
+        'ROXAS_BLVD.' : 'Roxas Blvd.', 
+        'ORTIGAS' : 'Ortigas',
+        'QUEZON_AVE.' : 'Quezon Ave.', 
+        'MARCOS_HIGHWAY' : 'Marcos Highway'
+    }.get(street, street)
+   
+def street_exists(street):
+    return 0
 
-# TREE LOADING/SAVING
+# convert timestamp to format : [Day of Week, Month, Time Interval] 
+def convert_timestamp(timestamp):
+    timestamp = timestamp.split(' ')  # timestamp[0] = Day of Week, timestamp[1] = Day, timestamp[2] = Month, timestamp[3] = Year, timestamp[4] = Time
+    dayOfWeek = timestamp[0].replace(',', '')
+    month = timestamp[2]
+    time = timestamp[4]
+    time_interval = convert_time_interval(time)
+	
+    time_fields = list()
+    time_fields.append(dayOfWeek)
+    time_fields.append(month)
+    time_fields.append(time_interval)
 
+    return time_fields
+		
+# converts time in HH:MM format to time interval
+def convert_time_interval(time):
+	split_stamp = time.split(':')
+	interval = int(round(((int(split_stamp[0]) * 60) + int(split_stamp[1])) / 15))
+	return interval
+
+def convert_time_standard(time):
+    temp = time.split(' ')
+    trim_time = temp[0]
+    split_time = trim_time.split(':')
+    if split_time[1] == 'PM':
+        if(int(split_time[0]) < 12):
+			split_time[0] = str(int(split_time[0]) + 12)
+	return split_time[0] + ':' + split_time[1]
+	
+def convert_date(date):
+
+	
+def read_row(row):
+	new_row = list(row) # 0 - location_road (street), 1 - location_bound, 2 - location_area(segment), 3 - timestamp, 4 - traffic
+	new_row[0] = convert_street(new_row[0].strip())
+	new_row[2] = convert_segment(new_row[2].strip())
+	timestamp = new_row[3]
+	traffic = new_row[4]
+	
+	del new_row[4] # delete traffic
+	del new_row[3] # delete timestamp 
+	del new_row[1] # delete location_bound
+
+	new_time = convert_timestamp(timestamp)
+	for time_field in new_time:
+		new_row.append(time_field)
+	new_row.append(traffic)
+	
+	return new_row
+		
 # SYSTEM ARGUMENTS
 def initialize_tree():
 
@@ -152,51 +376,13 @@ def initialize_tree():
     data_list = list()
 
     for row in data:  # Street, Day of Week, Time Interval, Traffic Condition
-
-        new_row = list(row)
-        print("Raw row: ")
-        print(new_row)
-
-        # combines location elements
-        new_row[0] = '-'.join(new_row[0:3]) # 0 - Street, 1 - timestamp, 2 - traffic
-
-        del new_row[1]
-        del new_row[1]
-
-        # splits timestamp into day and time interval
-        timestamp = new_row[1].split(' ')
-        # timestamp[0] = Day of Week, timestamp[1] = Day, timestamp[2] = Month, timestamp[3] = Year, timestamp[4] = Time
-
-        # delete not needed time information (timestamp[0] = Day of Week, timestamp[1] = Time)
-        del timestamp[1]  # deletes year
-        del timestamp[1]  # deletes month
-        del timestamp[1]  # deletes day
-        del timestamp[2]  # deletes last thing
-
-        timestamp[0] = timestamp[0].replace(',', '')
-
-        # convert time to interval value
-        day_of_week = timestamp[0]
-        split_stamp = timestamp[1].split(':')
-        interval = int(round(((int(split_stamp[0]) * 60) + int(split_stamp[1])) / 15))
-
-        traffic_con = new_row[2]
-
-        # adds new time elements into row
-        del new_row[1]
-        del new_row[1]
-
-        new_row.append(day_of_week)
-        new_row.append(interval)
-        new_row.append(traffic_con)
-
+        new_row = read_row(row)
         data_list.append(new_row)
 
-        # Result: row[0] = Street, row[1] = Day of Week, row[2] = Time Interval
+        # Result: row[0] = Street, row[1] = Segment, row[2] = Day of Week, row[3] = Month, row[4] = Time Interval, row[5] = Traffic
 
         print("After conversion: ")
         print(new_row)
-
         print("\n")
 
     data = list(data_list)
@@ -249,7 +435,7 @@ print(arguments)
 
 if str(arguments[1]) == 'init':
     initialize_tree()
-elif str(arguments[1]) == 'predict':
+elif str(arguments[1]) == 'predict': # street, date (MM-DD-YYYY), time (00:00 AM/PM)
     print(get_prediction(str(arguments[2]), str(arguments[3]), arguments[4]))
 elif str(arguments[1]) == 'update':
     update_tree(str(arguments[1]), str(arguments[2]), str(arguments[3]))
