@@ -462,7 +462,7 @@ class request_handler(BaseHTTPServer.BaseHTTPRequestHandler):
         s.send_header("Content-type", "text/html")
         s.end_headers()
  
- def do_GET(s):
+    def do_GET(s):
         from urlparse import urlparse
         query = urlparse(s.path).geturl()
 		
