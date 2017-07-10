@@ -6,6 +6,8 @@ import feedparser
 feedURL = "http://mmdatraffic.interaksyon.com/livefeed/"
 dataDict = feedparser.parse(feedURL)
 dataDict = dataDict.entries
+print "Feed Retrieval Successful"
+
 entryList = []
 
 for data in dataDict:
