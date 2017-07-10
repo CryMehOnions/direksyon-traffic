@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from . import forms
-from . import traffic_model
+from TrafficModel.forms import PredictionForm
+from TrafficModel import traffic_model
 # Create your views here.
 
 def index(request):
