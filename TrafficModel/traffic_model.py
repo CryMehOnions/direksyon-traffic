@@ -3,8 +3,30 @@ import time
 import datetime
 import sys
 import pickle
-#import BaseHTTPServer
+import BaseHTTPServer
 
+
+ERROR_THRESHOLD = 20
+
+
+def printtree(tree, indent=''):
+    if tree.results != None:
+        print("Prediction: ", str(tree.results), "; error_rate: ", str(tree.error))
+    else:
+        if tree.col == 0:
+            col_name = "STREET"
+        elif tree.col == 1:
+            col_name = "DAY OF WEEK"
+        elif tree.col == 2:
+            col_name = "TIME INTERVAL"
+        else:
+            col_name = str(tree.col)
+        print(col_name + ':'+str(tree.value)+'? ')
+        # Print the branches
+        print(indent+'T->', end=" ")
+        printtree(tree.true_branch, indent + '  ')
+        print(indent+'F->', end=" ")
+        printtree(tree.false_branch, indent + '  ')
 
 # USE DECISION TREE
 
@@ -44,13 +66,14 @@ def entropy(rows):
 
 
 class TreeNode:
-    def __init__(self, col=-1, value=None, results=None, true_branch=None, false_branch=None, alt_node=None, error=0):
+    def __init__(self, col=-1, value=None, results=None, true_branch=None, false_branch=None, alt_node=None, instances = 0, error=0):
         self.col = col
         self.value = value
         self.results = results
         self.true_branch = true_branch
         self.false_branch = false_branch
         self.alt_node = alt_node
+		self.instances = 0
         self.error = 0
 
 
@@ -86,24 +109,12 @@ def buildtree(rows, scoref=entropy):
         return TreeNode(results=countunique(rows))
 
 
-def printtree(tree, indent=''):
-    if tree.results != None:
-        print("Prediction: ", str(tree.results), "; error_rate: ", str(tree.error))
-    else:
-        if tree.col == 0:
-            col_name = "STREET"
-        elif tree.col == 1:
-            col_name = "DAY OF WEEK"
-        elif tree.col == 2:
-            col_name = "TIME INTERVAL"
-        else:
-            col_name = str(tree.col)
-        print(col_name + ':'+str(tree.value)+'? ')
-        # Print the branches
-        print(indent+'T->', end=" ")
-        printtree(tree.true_branch, indent + '  ')
-        print(indent+'F->', end=" ")
-        printtree(tree.false_branch, indent + '  ')
+def build_tree_incremental(row, tree):
+    if tree.results != None: # tree node is not a leaf node
+        pruned = false# check for pruning
+        if pruned != true:
+            if tree.error > ERROR_THRESHOLD:
+                create_alternate_tree(tree)
 
 
 def classify(observation, tree):
@@ -123,6 +134,38 @@ def classify(observation, tree):
             else:
                 branch = tree.false_branch
         return classify(observation, branch)
+		
+		
+def compare_actual_to_predicted(row, model): # true = match
+    if classify([row[0], row[1], row[2], row[3], row[4]], model) == row[5]:
+        return true
+    else:
+        return false
+	
+	
+def update_error_rate(node, is_accurate):
+    old_error = node.error
+    num_wrong = node.error * node.instances
+    node.instances = node.instances + 1
+    if is_accurate:
+        node.error = num_wrong/node.instances
+    else:
+        node.error = (num_wrong+1)/node.instances
+
+
+def create_alternate_tree(main_node, result):
+    return 0
+    
+	
+	
+def promote_alternate_tree(main_node):
+	main_node.col = main_node.alt_node.col
+	main_node.value = main_node.alt_node.value
+	main_node.results = main_node.alt_node.results
+	main_node.true_branch = main_node.alt_node.true_branch
+	main_node.false_branch = main_node.alt_node.false_branch
+	main_node.alt_node = None
+    main_node.error = main_node.alt_node.error
 
 # DATA VALIDATION
 		
@@ -385,7 +428,7 @@ def initialize_tree():
 
     print("Querying database...")
     try:
-        cur.execute("""SELECT location_road, location_bound, location_area, timestamp, traffic FROM entries WHERE update_timestamp > timestamp '2017-03-15 12:00:00' AND update_timestamp < timestamp '2017-03-19 14:00:00'""")
+        cur.execute("""SELECT location_road, location_bound, location_area, timestamp, traffic FROM entries WHERE (update_timestamp > timestamp '2017-03-07 00:00:00' AND update_timestamp < timestamp '2017-03-08 00:00:00') OR (update_timestamp > timestamp '2017-03-14 00:00:00' AND update_timestamp < timestamp '2017-03-15 00:00:00') OR (update_timestamp > timestamp '2017-03-21 00:00:00' AND update_timestamp < timestamp '2017-03-22 00:00:00')""")
     except:
         print("Data retrieval failed.")
 
@@ -432,7 +475,17 @@ def initialize_tree():
 def get_prediction(street, segment, day, time):
     # load tree data
     data = pickle.load(open("model.p", "rb"))
-    print(classify([street, segment, day, time], data))
+	
+    day_of_week = get_day_of_week(date)
+    month = get_month(date)
+    time_interval = convert_time_interval(convert_time_standard)
+		
+    print("Street: " + street)
+    print("Segment: " + segment)
+    print("Day of week: " + day_of_week)
+    print("Month: " + month)
+    print("Time Interval: " + time_interval)
+    return classify([street, segment, day, month, time_interval], data)
 
 	
 def set_last_update():
@@ -453,80 +506,73 @@ def print_traffic_model():
 
 # Web Code
 
-#HOST_NAME = ''
-#PORT_NUMBER = 8080
+# System Argument Code
 
-# class request_handler(BaseHTTPServer.BaseHTTPRequestHandler):
-#     def do_HEAD(s):
-#         s.send_response(200)
-#         s.send_header("Content-type", "text/html")
-#         s.end_headers()
+arguments = sys.argv
+
+print(arguments)
+
+if str(arguments[1]) == 'init': # initializes tree (WARNING: OVERWRITES MODEL FILE)
+    initialize_tree()
+elif str(arguments[1]) == 'predict': # Gets a prediction based on given parameters (Parameters: street, date (MM-DD-YYYY), time (00:00 AM/PM))
+    print(get_prediction(str(arguments[2]), str(arguments[3]), arguments[4]))
+elif str(arguments[1]) == 'update': # Updates tree with instances from date/time of last instance parsed until given date/time (Parameters: date(MM-DD-YYYY, time (HH:MM))
+    update_tree(str(arguments[1]), str(arguments[2]))
+elif str(arguments[1]) == 'print_tree': # prints traffic model
+    print_traffic_model()
+	
+'''
+elif str(arguments[1]) == 'run_server':
+    server_class = BaseHTTPServer.HTTPServer
+    httpd = server_class((HOST_NAME, PORT_NUMBER), request_handler)
+    try:
+        httpd.serve_forever()
+    except KeyboardInterrupt:
+        pass
+    httpd.server_close()
+'''
+'''
+HOST_NAME = ''
+PORT_NUMBER = 8080
+
+class request_handler(BaseHTTPServer.BaseHTTPRequestHandler):
+    def do_HEAD(s):
+        s.send_response(200)
+        s.send_header("Content-type", "text/html")
+        s.end_headers()
  
-#     def do_GET(s):
-#         from urlparse import urlparse
-#         query = urlparse(s.path).geturl()
+    def do_GET(s):
+        from urlparse import urlparse
+        query = urlparse(s.path).geturl()
 		
-# 		# Process Query
-#         query = query[1:]
-#         query = query.replace("%20", " ")
-#         query_components = query.split("&")
+		# Process Query
+        query = query[1:]
+        query = query.replace("%20", " ")
+        query_components = query.split("&")
 		
-#         if len(query_components == 4):
+        if len(query_components == 4):
 		
-#             street = query_components[0]
-#             segment = query_components[1]
-#             date = query_components[2]
-#             time = query_components[3]
-#             day_of_week = get_day_of_week(date)
-#             month = get_month(date)
-#             time_interval = convert_time_interval(convert_time_standard)
+            street = query_components[0]
+            segment = query_components[1]
+            date = query_components[2]
+            time = query_components[3]
+            # from street, segment, date, time
+            prediction = get_prediction(street, segment, date, time) # passes street, segment, day of week, month, time interval
 		
-#             print("Street: " + street)
-#             print("Segment: " + segment)
-#             print("Day of week: " + day_of_week)
-#             print("Month: " + month)
-#             print("Time Interval: " + time_interval)
-#             # from street, segment, date, time
-#             prediction = predict(street, segment, day_of_week, month, time_interval) # passes street, segment, day of week, month, time interval
-		
-#             # Create Response
-#             s.send_response(200)
-#             s.send_header("Content-type", "text/html")
-#             s.end_headers()
-#             s.wfile.write("<html><head><title>Prediction Result</title></head>")
-#             s.wfile.write("<body><p>" + prediction + "</p></body></html>")
+            # Create Response
+            s.send_response(200)
+            s.send_header("Content-type", "text/html")
+            s.end_headers()
+            s.wfile.write("<html><head><title>Prediction Result</title></head>")
+            s.wfile.write("<body><p>" + prediction + "</p></body></html>")
 
-#         else:
-#             s.send_response(200)
-#             s.send_header("Content-type", "text/html")
-#             s.end_headers()
-#             s.wfile.write("<html><head><title>Prediction Result</title></head>")
-#             s.wfile.write("<body><p>Invalid Arguments</p></body></html>")
-			
-# # System Argument Code
-
-# arguments = sys.argv
-
-# print(arguments)
-
-# if str(arguments[1]) == 'init': # initializes tree (WARNING: OVERWRITES MODEL FILE)
-#     initialize_tree()
-# elif str(arguments[1]) == 'predict': # Gets a prediction based on given parameters (Parameters: street, date (MM-DD-YYYY), time (00:00 AM/PM))
-#     print(get_prediction(str(arguments[2]), str(arguments[3]), arguments[4]))
-# elif str(arguments[1]) == 'update': # Updates tree with instances from date/time of last instance parsed until given date/time (Parameters: date(MM-DD-YYYY, time (HH:MM))
-#     update_tree(str(arguments[1]), str(arguments[2]))
-# elif str(arguments[1]) == 'print_tree': # prints traffic model
-#     print_traffic_model()
-# elif str(arguments[1]) == 'run_server':
-#     server_class = BaseHTTPServer.HTTPServer
-#     httpd = server_class((HOST_NAME, PORT_NUMBER), request_handler)
-#     try:
-#         httpd.serve_forever()
-#     except KeyboardInterrupt:
-#         pass
-#     httpd.server_close()
-
-
+        else:
+            s.send_response(200)
+            s.send_header("Content-type", "text/html")
+            s.end_headers()
+            s.wfile.write("<html><head><title>Prediction Result</title></head>")
+            s.wfile.write("<body><p>Invalid Arguments</p></body></html>")
+'''
 
 # print("Predicting traffic for ORTIGAS-SB-C5_FLYOVER on a Wednesday at time interval 47")
 #print(classify(['ORTIGAS-SB-C5_FLYOVER', 'Wed', 47], result))
