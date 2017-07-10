@@ -14,9 +14,11 @@ def printtree(tree, indent=''):
     else:
         if tree.col == 0:
             col_name = "STREET"
-        elif tree.col == 1:
-            col_name = "DAY OF WEEK"
+		elif tree.col == 1:
+            col_name = "SEGMENT"
         elif tree.col == 2:
+            col_name = "DAY OF WEEK"
+        elif tree.col == 3:
             col_name = "TIME INTERVAL"
         else:
             col_name = str(tree.col)
@@ -348,17 +350,16 @@ def street_exists(street):
     return 0
 
 	
-# convert timestamp to format : [Day of Week, Month, Time Interval] 
+# convert timestamp to format : [Day of Week, Time Interval] 
 def convert_timestamp(timestamp):
     timestamp = timestamp.split(' ')  # timestamp[0] = Day of Week, timestamp[1] = Day, timestamp[2] = Month, timestamp[3] = Year, timestamp[4] = Time
     dayOfWeek = timestamp[0].replace(',', '')
-    month = timestamp[2]
     time = timestamp[4]
     time_interval = convert_time_interval(time)
 	
     time_fields = list()
     time_fields.append(dayOfWeek)
-    time_fields.append(month)
+    # time_fields.append(month)
     time_fields.append(time_interval)
 
     return time_fields
@@ -379,10 +380,6 @@ def convert_time_standard(time):
         if(int(split_time[0]) < 12):
             split_time[0] = str(int(split_time[0]) + 12)
     return split_time[0] + ':' + split_time[1]
-	
-	
-def get_month(date):
-    return 0
 	
 	
 def get_day_of_week(date):
@@ -476,15 +473,13 @@ def get_prediction(street, segment, day, time):
     data = pickle.load(open("model.p", "rb"))
 	
     day_of_week = get_day_of_week(date)
-    month = get_month(date)
     time_interval = convert_time_interval(convert_time_standard)
 		
     print("Street: " + street)
     print("Segment: " + segment)
     print("Day of week: " + day_of_week)
-    print("Month: " + month)
     print("Time Interval: " + time_interval)
-    return classify([street, segment, day, month, time_interval], data)
+    return classify([street, segment, day, time_interval], data)
 
 	
 def set_last_update():
