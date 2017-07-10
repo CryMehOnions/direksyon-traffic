@@ -19,8 +19,8 @@ def getPrediction(request):
 
 			prediction = getPrediction(street, segment, date, time)
 
-			print(prediction)
+			return HttpResponse(prediction)
 		else:
-			print "Something happened"
+			return HttpResponse("Something happened")
 	else:
-		print "Something Happened at start"
+		return HttpResponse("Something Happened at start")
