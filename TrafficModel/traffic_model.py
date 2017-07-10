@@ -449,7 +449,6 @@ def print_traffic_model():
     printtree(data)
 
 
-initialize_tree()
 # MAIN
 
 # Web Code
