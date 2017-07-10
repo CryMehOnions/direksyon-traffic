@@ -14,7 +14,7 @@ def printtree(tree, indent=''):
     else:
         if tree.col == 0:
             col_name = "STREET"
-		elif tree.col == 1:
+        elif tree.col == 1:
             col_name = "SEGMENT"
         elif tree.col == 2:
             col_name = "DAY OF WEEK"
