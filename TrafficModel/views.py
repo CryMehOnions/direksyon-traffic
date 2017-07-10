@@ -17,7 +17,7 @@ def getPrediction(request):
 		date = request.GET.get('date')
 		time = request.GET.get('time')
 
-		prediction = getPrediction(street, segment, date, time)
+		prediction = traffic_model.get_prediction(street, segment, date, time)
 
 		return HttpResponse(prediction)
 		#else:
