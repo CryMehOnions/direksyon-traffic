@@ -467,32 +467,32 @@ class request_handler(BaseHTTPServer.BaseHTTPRequestHandler):
         query = urlparse(s.path).geturl()
 		
 		# Process Query
-		query = query[1:]
-		query = query.replace("%20", " ")
-		query_components = query.split("&")
+        query = query[1:]
+        query = query.replace("%20", " ")
+        query_components = query.split("&")
 		
-		if len(query_components == 4):
+        if len(query_components == 4):
 		
-		    street = query_components[0]
-		    segment = query_components[1]
-		    date = query_components[2]
-		    time = query_components[3]
-		    day_of_week = get_day_of_week(date)
-		    month = get_month(date)
-		    time_interval = convert_time_interval(convert_time_standard)
+            street = query_components[0]
+            segment = query_components[1]
+            date = query_components[2]
+            time = query_components[3]
+            day_of_week = get_day_of_week(date)
+            month = get_month(date)
+            time_interval = convert_time_interval(convert_time_standard)
 		
-		    print("Street: " + street)
-		    print("Segment: " + segment)
-		    print("Day of week: " + day_of_week)
-		    print("Month: " + month)
-		    print("Time Interval: " + time_interval)
-		    # from street, segment, date, time
-		    prediction = predict(street, segment, day_of_week, month, time_interval) # passes street, segment, day of week, month, time interval
+            print("Street: " + street)
+            print("Segment: " + segment)
+            print("Day of week: " + day_of_week)
+            print("Month: " + month)
+            print("Time Interval: " + time_interval)
+            # from street, segment, date, time
+            prediction = predict(street, segment, day_of_week, month, time_interval) # passes street, segment, day of week, month, time interval
 		
-		    # Create Response
+            # Create Response
             s.send_response(200)
             s.send_header("Content-type", "text/html")
-		    s.end_headers()
+    	    s.end_headers()
             s.wfile.write("<html><head><title>Prediction Result</title></head>")
             s.wfile.write("<body><p>" + prediction + "</p></body></html>")
 
