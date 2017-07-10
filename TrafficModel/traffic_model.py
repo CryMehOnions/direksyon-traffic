@@ -1,7 +1,9 @@
 import psycopg2
 import time
+import datetime
 import sys
 import pickle
+import BaseHTTPServer
 
 
 # USE DECISION TREE
@@ -122,6 +124,8 @@ def classify(observation, tree):
                 branch = tree.false_branch
         return classify(observation, branch)
 
+# DATA VALIDATION
+		
 def convert_segment(segment):
     return {
         #C5
@@ -286,6 +290,7 @@ def convert_segment(segment):
         'NICHOLS' : 'Nichols'
     }.get(segment, segment)
 		
+		
 def convert_street(street):
     return {
         'COMMONWEALTH' : 'Commonwealth',
@@ -296,9 +301,11 @@ def convert_street(street):
         'MARCOS_HIGHWAY' : 'Marcos Highway'
     }.get(street, street)
    
+   
 def street_exists(street):
     return 0
 
+	
 # convert timestamp to format : [Day of Week, Month, Time Interval] 
 def convert_timestamp(timestamp):
     timestamp = timestamp.split(' ')  # timestamp[0] = Day of Week, timestamp[1] = Day, timestamp[2] = Month, timestamp[3] = Year, timestamp[4] = Time
@@ -314,12 +321,14 @@ def convert_timestamp(timestamp):
 
     return time_fields
 		
+		
 # converts time in HH:MM format to time interval
 def convert_time_interval(time):
 	split_stamp = time.split(':')
 	interval = int(round(((int(split_stamp[0]) * 60) + int(split_stamp[1])) / 15))
 	return interval
 
+	
 def convert_time_standard(time):
     temp = time.split(' ')
     trim_time = temp[0]
@@ -329,8 +338,14 @@ def convert_time_standard(time):
             split_time[0] = str(int(split_time[0]) + 12)
     return split_time[0] + ':' + split_time[1]
 	
-def convert_date(date):
+	
+def get_month(date):
     return 0
+	
+	
+def get_day_of_week(date):
+    return 0
+	
 	
 def read_row(row):
     new_row = list(row) # 0 - location_road (street), 1 - location_bound, 2 - location_area(segment), 3 - timestamp, 4 - traffic
@@ -349,6 +364,7 @@ def read_row(row):
     new_row.append(traffic)
 	
     return new_row
+		
 		
 # SYSTEM ARGUMENTS
 def initialize_tree():
@@ -369,7 +385,7 @@ def initialize_tree():
 
     print("Querying database...")
     try:
-        cur.execute("""SELECT location_road, location_bound, location_area, timestamp, traffic FROM entries WHERE update_timestamp > timestamp '2017-03-17 12:00:00' AND update_timestamp < timestamp '2017-03-19 14:00:00'""")
+        cur.execute("""SELECT location_road, location_bound, location_area, timestamp, traffic FROM entries WHERE update_timestamp > timestamp '2017-03-15 12:00:00' AND update_timestamp < timestamp '2017-03-19 14:00:00'""")
     except:
         print("Data retrieval failed.")
 
@@ -413,17 +429,20 @@ def initialize_tree():
         print("Saving failed.")
 
 
-def get_prediction(street, day, time):
+def get_prediction(street, segment, day, time):
     # load tree data
     data = pickle.load(open("model.p", "rb"))
-    print(classify([street, day, time], data))
+    print(classify([street, segment, day, time], data))
 
+	
 def set_last_update():
 	return 0
 
+	
 def update_tree(date, time):
     return 0
 
+	
 
 def print_traffic_model():
     data = pickle.load(open("model.p", "rb"))
@@ -431,6 +450,57 @@ def print_traffic_model():
 
 
 # MAIN
+
+# Web Code
+
+HOST_NAME = ''
+PORT_NUMBER = 8080
+
+class request_handler(BaseHTTPServer.BaseHTTPRequestHandler):
+    def do_HEAD(s):
+	
+    def do_GET(s):
+        from urlparse import urlparse
+        query = urlparse(s.path).geturl()
+		
+		# Process Query
+		query = query[1:]
+		query = query.replace("%20", " ")
+		query_components = query.split("&")
+		
+		if len(query_components == 4):
+		
+		    street = query_components[0]
+		    segment = query_components[1]
+		    date = query_components[2]
+		    time = query_components[3]
+		    day_of_week = get_day_of_week(date)
+		    month = get_month(date)
+		    time_interval = convert_time_interval(convert_time_standard)
+		
+		    print("Street: " + street)
+		    print("Segment: " + segment)
+		    print("Day of week: " + day_of_week)
+		    print("Month: " + month)
+		    print("Time Interval: " + time_interval)
+		    # from street, segment, date, time
+		    prediction = predict(street, segment, day_of_week, month, time_interval) # passes street, segment, day of week, month, time interval
+		
+		    # Create Response
+            s.send_response(200)
+            s.send_header("Content-type", "text/html")
+		    s.end_headers()
+            s.wfile.write("<html><head><title>Prediction Result</title></head>")
+            s.wfile.write("<body><p>" + prediction + "</p></body></html>")
+
+        else:
+            s.send_response(200)
+            s.send_header("Content-type", "text/html")
+		    s.end_headers()
+            s.wfile.write("<html><head><title>Prediction Result</title></head>")
+            s.wfile.write("<body><p>Invalid Arguments</p></body></html>")
+			
+# System Argument Code
 
 arguments = sys.argv
 
@@ -444,7 +514,14 @@ elif str(arguments[1]) == 'update': # Updates tree with instances from date/time
     update_tree(str(arguments[1]), str(arguments[2]))
 elif str(arguments[1]) == 'print_tree': # prints traffic model
     print_traffic_model()
-
+elif str(arguments[1]) == 'run_server':
+    server_class = BaseHTTPServer.HTTPServer
+    httpd = server_class((HOST_NAME, PORT_NUMBER), request_handler)
+    try:
+        httpd.serve_forever()
+    except KeyboardInterrupt:
+        pass
+    httpd.server_close()
 
 
 
