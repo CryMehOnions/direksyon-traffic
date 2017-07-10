@@ -1,8 +1,8 @@
 import psycopg2
 import time
-import datetime
 import sys
 import pickle
+from datetime import datetime
 
 
 ERROR_THRESHOLD = 20
@@ -383,8 +383,20 @@ def convert_time_standard(time):
 	
 	
 def get_day_of_week(date):
-    return 0
-	
+    date_object = datetime.strptime(date, '%m/%d/%Y')
+    day_int = datetime.date_object.weekday()
+    if day_int == 0:
+        return 'Mon'
+    elif day_int == 1:
+        return 'Tue'
+    elif day_int == 2:
+        return 'Wed'
+    elif day_int == 3:
+        return 'Thu'
+    elif day_int == 4:
+        return 'Fri'
+    else:
+        return 'Sun'
 	
 def read_row(row):
     new_row = list(row) # 0 - location_road (street), 1 - location_bound, 2 - location_area(segment), 3 - timestamp, 4 - traffic
