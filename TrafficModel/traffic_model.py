@@ -458,8 +458,11 @@ PORT_NUMBER = 8080
 
 class request_handler(BaseHTTPServer.BaseHTTPRequestHandler):
     def do_HEAD(s):
-	
-    def do_GET(s):
+        s.send_response(200)
+        s.send_header("Content-type", "text/html")
+        s.end_headers()
+ 
+ def do_GET(s):
         from urlparse import urlparse
         query = urlparse(s.path).geturl()
 		
