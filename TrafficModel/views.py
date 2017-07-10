@@ -11,16 +11,16 @@ def getPrediction(request):
 	if request.method == 'GET':
 		form = PredictionForm(request)
 
-		if form.is_valid():
-			street = form.cleaned_data['street']
-			segment = form.cleaned_data['segment']
-			date = form.cleaned_data['date']
-			time = form.cleaned_data['time']
+		#if form.is_valid():
+		street = request.GET.get('street')
+		segment = request.GET.get('segment')
+		date = request.GET.get('date')
+		time = request.GET.get('time')
 
-			prediction = getPrediction(street, segment, date, time)
+		prediction = getPrediction(street, segment, date, time)
 
-			return HttpResponse(prediction)
-		else:
-			return HttpResponse("Something happened")
+		return HttpResponse(prediction)
+		#else:
+		#	return HttpResponse("Something happened")
 	else:
 		return HttpResponse("Something Happened at start")
