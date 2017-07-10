@@ -17,7 +17,9 @@ def getPrediction(request):
 			date = form.cleaned_data['date']
 			time = form.cleaned_data['time']
 
-			print getPrediction(street, segment, date, time)
+			prediction = getPrediction(street, segment, date, time)
+
+			print prediction
 		else:
 			print "Something happened"
 	else:
