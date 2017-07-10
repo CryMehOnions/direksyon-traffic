@@ -14,7 +14,7 @@ cur = conn.cursor()
 
 print("Querying database...")
 try:
-    cur.execute("""SELECT location_road, location_bound, location_area FROM entries GROUP BY location_road""")
+    cur.execute("""SELECT location_road, location_bound, location_area FROM entries""")
 except:
     print("Data retrieval failed.")
 
