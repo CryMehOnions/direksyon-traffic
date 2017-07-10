@@ -3,7 +3,7 @@ import time
 import datetime
 import sys
 import pickle
-import BaseHTTPServer
+#import BaseHTTPServer
 
 
 # USE DECISION TREE
@@ -453,78 +453,78 @@ def print_traffic_model():
 
 # Web Code
 
-HOST_NAME = ''
-PORT_NUMBER = 8080
+#HOST_NAME = ''
+#PORT_NUMBER = 8080
 
-class request_handler(BaseHTTPServer.BaseHTTPRequestHandler):
-    def do_HEAD(s):
-        s.send_response(200)
-        s.send_header("Content-type", "text/html")
-        s.end_headers()
+# class request_handler(BaseHTTPServer.BaseHTTPRequestHandler):
+#     def do_HEAD(s):
+#         s.send_response(200)
+#         s.send_header("Content-type", "text/html")
+#         s.end_headers()
  
-    def do_GET(s):
-        from urlparse import urlparse
-        query = urlparse(s.path).geturl()
+#     def do_GET(s):
+#         from urlparse import urlparse
+#         query = urlparse(s.path).geturl()
 		
-		# Process Query
-        query = query[1:]
-        query = query.replace("%20", " ")
-        query_components = query.split("&")
+# 		# Process Query
+#         query = query[1:]
+#         query = query.replace("%20", " ")
+#         query_components = query.split("&")
 		
-        if len(query_components == 4):
+#         if len(query_components == 4):
 		
-            street = query_components[0]
-            segment = query_components[1]
-            date = query_components[2]
-            time = query_components[3]
-            day_of_week = get_day_of_week(date)
-            month = get_month(date)
-            time_interval = convert_time_interval(convert_time_standard)
+#             street = query_components[0]
+#             segment = query_components[1]
+#             date = query_components[2]
+#             time = query_components[3]
+#             day_of_week = get_day_of_week(date)
+#             month = get_month(date)
+#             time_interval = convert_time_interval(convert_time_standard)
 		
-            print("Street: " + street)
-            print("Segment: " + segment)
-            print("Day of week: " + day_of_week)
-            print("Month: " + month)
-            print("Time Interval: " + time_interval)
-            # from street, segment, date, time
-            prediction = predict(street, segment, day_of_week, month, time_interval) # passes street, segment, day of week, month, time interval
+#             print("Street: " + street)
+#             print("Segment: " + segment)
+#             print("Day of week: " + day_of_week)
+#             print("Month: " + month)
+#             print("Time Interval: " + time_interval)
+#             # from street, segment, date, time
+#             prediction = predict(street, segment, day_of_week, month, time_interval) # passes street, segment, day of week, month, time interval
 		
-            # Create Response
-            s.send_response(200)
-            s.send_header("Content-type", "text/html")
-            s.end_headers()
-            s.wfile.write("<html><head><title>Prediction Result</title></head>")
-            s.wfile.write("<body><p>" + prediction + "</p></body></html>")
+#             # Create Response
+#             s.send_response(200)
+#             s.send_header("Content-type", "text/html")
+#             s.end_headers()
+#             s.wfile.write("<html><head><title>Prediction Result</title></head>")
+#             s.wfile.write("<body><p>" + prediction + "</p></body></html>")
 
-        else:
-            s.send_response(200)
-            s.send_header("Content-type", "text/html")
-            s.end_headers()
-            s.wfile.write("<html><head><title>Prediction Result</title></head>")
-            s.wfile.write("<body><p>Invalid Arguments</p></body></html>")
+#         else:
+#             s.send_response(200)
+#             s.send_header("Content-type", "text/html")
+#             s.end_headers()
+#             s.wfile.write("<html><head><title>Prediction Result</title></head>")
+#             s.wfile.write("<body><p>Invalid Arguments</p></body></html>")
 			
-# System Argument Code
+# # System Argument Code
 
-arguments = sys.argv
+# arguments = sys.argv
 
-print(arguments)
+# print(arguments)
 
-if str(arguments[1]) == 'init': # initializes tree (WARNING: OVERWRITES MODEL FILE)
-    initialize_tree()
-elif str(arguments[1]) == 'predict': # Gets a prediction based on given parameters (Parameters: street, date (MM-DD-YYYY), time (00:00 AM/PM))
-    print(get_prediction(str(arguments[2]), str(arguments[3]), arguments[4]))
-elif str(arguments[1]) == 'update': # Updates tree with instances from date/time of last instance parsed until given date/time (Parameters: date(MM-DD-YYYY, time (HH:MM))
-    update_tree(str(arguments[1]), str(arguments[2]))
-elif str(arguments[1]) == 'print_tree': # prints traffic model
-    print_traffic_model()
-elif str(arguments[1]) == 'run_server':
-    server_class = BaseHTTPServer.HTTPServer
-    httpd = server_class((HOST_NAME, PORT_NUMBER), request_handler)
-    try:
-        httpd.serve_forever()
-    except KeyboardInterrupt:
-        pass
-    httpd.server_close()
+# if str(arguments[1]) == 'init': # initializes tree (WARNING: OVERWRITES MODEL FILE)
+#     initialize_tree()
+# elif str(arguments[1]) == 'predict': # Gets a prediction based on given parameters (Parameters: street, date (MM-DD-YYYY), time (00:00 AM/PM))
+#     print(get_prediction(str(arguments[2]), str(arguments[3]), arguments[4]))
+# elif str(arguments[1]) == 'update': # Updates tree with instances from date/time of last instance parsed until given date/time (Parameters: date(MM-DD-YYYY, time (HH:MM))
+#     update_tree(str(arguments[1]), str(arguments[2]))
+# elif str(arguments[1]) == 'print_tree': # prints traffic model
+#     print_traffic_model()
+# elif str(arguments[1]) == 'run_server':
+#     server_class = BaseHTTPServer.HTTPServer
+#     httpd = server_class((HOST_NAME, PORT_NUMBER), request_handler)
+#     try:
+#         httpd.serve_forever()
+#     except KeyboardInterrupt:
+#         pass
+#     httpd.server_close()
 
 
 
