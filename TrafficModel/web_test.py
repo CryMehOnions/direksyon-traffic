@@ -2,7 +2,7 @@ import time
 import BaseHTTPServer
  
  
-HOST_NAME = '128.199.106.13' # !!!REMEMBER TO CHANGE THIS!!!
+HOST_NAME = '' # !!!REMEMBER TO CHANGE THIS!!!
 PORT_NUMBER = 8080 # Maybe set this to 9000.
  
  
