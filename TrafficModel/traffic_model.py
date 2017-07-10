@@ -329,7 +329,7 @@ def convert_time_standard(time):
     return split_time[0] + ':' + split_time[1]
 	
 def convert_date(date):
-
+    return 0
 	
 def read_row(row):
     new_row = list(row) # 0 - location_road (street), 1 - location_bound, 2 - location_area(segment), 3 - timestamp, 4 - traffic
