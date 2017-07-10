@@ -203,6 +203,7 @@ def convert_segment(segment):
         'NIA_ROAD' : 'NIA Road',
         'MU\\xc3\\xb1OZ' : 'Munoz',
         'Mu\\xc3\\x83\\xc2\\xb1oz' : 'Munoz',
+		'MALL_OF_ASIA' : 'Mall of Asia',
         #ESPANA
         'WELCOME_ROTUNDA' : 'Welcome Rotunda',
         'P.NOVAL' : 'P. Noval',
