@@ -9,12 +9,12 @@ def index(request):
 
 def getPrediction(request):
 	if request.method == 'GET':
-		#form = PredictionForm(request)
+		form = PredictionForm(request)
 
-		street = request.data['street']
-		segment = request.data['segment']
-		date = request.data['date']
-		time = request.data['time']
+		street = form.cleaned_data['street']
+		segment = form.cleaned_data['segment']
+		date = form.cleaned_data['date']
+		time = form.cleaned_data['time']
 
 		prediction = getPrediction(street, segment, date, time)
 
