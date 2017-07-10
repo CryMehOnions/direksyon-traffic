@@ -325,29 +325,29 @@ def convert_time_standard(time):
     split_time = trim_time.split(':')
     if split_time[1] == 'PM':
         if(int(split_time[0]) < 12):
-			split_time[0] = str(int(split_time[0]) + 12)
-	return split_time[0] + ':' + split_time[1]
+            split_time[0] = str(int(split_time[0]) + 12)
+    return split_time[0] + ':' + split_time[1]
 	
 def convert_date(date):
 
 	
 def read_row(row):
-	new_row = list(row) # 0 - location_road (street), 1 - location_bound, 2 - location_area(segment), 3 - timestamp, 4 - traffic
-	new_row[0] = convert_street(new_row[0].strip())
-	new_row[2] = convert_segment(new_row[2].strip())
-	timestamp = new_row[3]
-	traffic = new_row[4]
+    new_row = list(row) # 0 - location_road (street), 1 - location_bound, 2 - location_area(segment), 3 - timestamp, 4 - traffic
+    new_row[0] = convert_street(new_row[0].strip())
+    new_row[2] = convert_segment(new_row[2].strip())
+    timestamp = new_row[3]
+    traffic = new_row[4]
 	
-	del new_row[4] # delete traffic
-	del new_row[3] # delete timestamp 
-	del new_row[1] # delete location_bound
+    del new_row[4] # delete traffic
+    del new_row[3] # delete timestamp 
+    del new_row[1] # delete location_bound
 
-	new_time = convert_timestamp(timestamp)
-	for time_field in new_time:
-		new_row.append(time_field)
-	new_row.append(traffic)
+    new_time = convert_timestamp(timestamp)
+    for time_field in new_time:
+        new_row.append(time_field)
+    new_row.append(traffic)
 	
-	return new_row
+    return new_row
 		
 # SYSTEM ARGUMENTS
 def initialize_tree():
