@@ -202,7 +202,7 @@ def convert_segment(segment):
         'MALIBAY' : 'Malibay',
         'NIA_ROAD' : 'NIA Road',
         'MU\\xc3\\xb1OZ' : 'Munoz',
-        'Mu\\xc3\\x83\\xc2\\xb1oz' : 'Munoz'
+        'Mu\\xc3\\x83\\xc2\\xb1oz' : 'Munoz',
         #ESPANA
         'WELCOME_ROTUNDA' : 'Welcome Rotunda',
         'P.NOVAL' : 'P. Noval',
