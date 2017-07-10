@@ -18,5 +18,6 @@ from django.contrib import admin
 
 urlpatterns = [
 	url(r'^rssReader/', include('rssReader.urls')),
-    url(r'^admin/', admin.site.urls),
+    	url(r'^admin/', admin.site.urls),
+	url(r'^TrafficModel/', include('TrafficModel.urls')),
 ]
