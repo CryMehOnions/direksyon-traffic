@@ -370,7 +370,7 @@ def convert_time_interval(time):
     print("Converting HH:MM time to time interval")
     split_stamp = str(time).split(':')
     split_stamp1 = split_stamp[0]
-	split_stamp2 = split_stamp[1]
+    split_stamp2 = split_stamp[1]
     interval = int(round(((int(split_stamp1) * 60)) + (int(split_stamp2) / 15)))
     print(interval)
     return interval
