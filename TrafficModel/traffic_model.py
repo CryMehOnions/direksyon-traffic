@@ -495,7 +495,7 @@ def get_prediction(street, segment, date, time):
     data = pickle.load(open("model.p", "rb"))
 	
     day_of_week = get_day_of_week(date)
-    time_interval = convert_time_interval(convert_time_standard)
+    time_interval = convert_time_interval(convert_time_standard(time))
 		
     print("Street: " + street)
     print("Segment: " + segment)
