@@ -383,7 +383,7 @@ def convert_time_standard(time):
 	
 	
 def get_day_of_week(date):
-    date_object = datetime.strptime(date, '%m/%d/%Y')
+    date_object = datetime.strptime(date, '%m-%d-%Y')
     day_int = date_object.weekday()
     if day_int == 0:
         return 'Mon'
