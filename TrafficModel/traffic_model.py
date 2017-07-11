@@ -453,11 +453,11 @@ def initialize_tree():
     data = cur.fetchall()
     data_list = list()
 
-    for row in data:  # Street, Day of Week, Time Interval, Traffic Condition
+    for row in data:  # Street, Segment, Day of Week, Time Interval, Traffic Condition
         new_row = read_row(row)
         data_list.append(new_row)
 
-        # Result: row[0] = Street, row[1] = Segment, row[2] = Day of Week, row[3] = Month, row[4] = Time Interval, row[5] = Traffic
+        # Result: row[0] = Street, row[1] = Segment, row[2] = Day of Week, row[3] = Time Interval, row[5] = Traffic
 
         print("After conversion: ")
         print(new_row)
@@ -501,7 +501,7 @@ def get_prediction(street, segment, date, time):
     print("Segment: " + segment)
     print("Day of week: " + day_of_week)
     print("Time Interval: " + str(time_interval))
-    return classify([street, segment, day_of_week, time_interval], data)
+    return classify([street, segment, day_of_week, time_interval]), data)
 
 	
 def set_last_update():
