@@ -381,7 +381,7 @@ def convert_time_standard(time):
     print("Time received: " + time)
     temp = time.split(' ')
     hold_AMPM = temp[1]
-    print("AM/PM: " + holdAMPM)
+    print("AM/PM: " + hold_AMPM)
     trim_time = temp[0]
     print("Trimmed time: " + trim_time)
     split_time = trim_time.split(':')
