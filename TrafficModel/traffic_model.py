@@ -480,7 +480,7 @@ def initialize_tree():
         print("Saving failed.")
 
 
-def get_prediction(street, segment, day, time):
+def get_prediction(street, segment, date, time):
     # load tree data
     data = pickle.load(open("model.p", "rb"))
 	
@@ -491,7 +491,7 @@ def get_prediction(street, segment, day, time):
     print("Segment: " + segment)
     print("Day of week: " + day_of_week)
     print("Time Interval: " + time_interval)
-    return classify([street, segment, day, time_interval], data)
+    return classify([street, segment, day_of_week, time_interval], data)
 
 	
 def set_last_update():
