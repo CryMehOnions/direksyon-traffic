@@ -24,3 +24,7 @@ def getPrediction(request):
 		#	return HttpResponse("Something happened")
 	else:
 		return HttpResponse("Something Happened at start")
+
+def init(request):
+	traffic_model.initialize_tree()
+	return HttpResponse("Tree initialized.")
