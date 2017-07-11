@@ -496,12 +496,12 @@ def get_prediction(street, segment, date, time):
 	
     day_of_week = get_day_of_week(date)
     time_interval = convert_time_interval(convert_time_standard(time))
-		
+	
     print("Street: " + street)
     print("Segment: " + segment)
     print("Day of week: " + day_of_week)
     print("Time Interval: " + str(time_interval))
-    return classify([street, segment, day_of_week, time_interval]), data)
+    return classify([street, segment, day_of_week, time_interval], data)
 
 	
 def set_last_update():
@@ -511,7 +511,6 @@ def set_last_update():
 def update_tree(date, time):
     return 0
 
-	
 
 def print_traffic_model():
     data = pickle.load(open("model.p", "rb"))
