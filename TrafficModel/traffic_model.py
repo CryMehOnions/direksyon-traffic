@@ -368,8 +368,10 @@ def convert_timestamp(timestamp):
 # converts time in HH:MM format to time interval
 def convert_time_interval(time):
     print("Converting HH:MM time to time interval")
-    split_stamp1, split_stamp2 = str(time).split(':')
-    interval = int(round(((int(split_stamp1) * 60)) + (int(split_stamp2[0]) / 15)))
+    split_stamp = str(time).split(':')
+    split_stamp1 = split_stamp[0]
+	split_stamp2 = split_stamp[1]
+    interval = int(round(((int(split_stamp1) * 60)) + (int(split_stamp2) / 15)))
     print(interval)
     return interval
 
@@ -381,6 +383,7 @@ def convert_time_standard(time):
     if split_time[1] == 'PM':
         if(int(split_time[0]) < 12):
             split_time[0] = str(int(split_time[0]) + 12)
+    print(split_time[0] + ':' + split_time[1])
     return split_time[0] + ':' + split_time[1]
 	
 	
