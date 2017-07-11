@@ -370,7 +370,7 @@ def convert_time_interval(time):
 	split_stamp = str(time).split(':')
 	second_split = split_stamp[1].split(' ')
 	interval = int(round(((int(split_stamp[0]) * 60) + int(second_split[0]) / 15))
-	return interval
+    return interval
 
 	
 def convert_time_standard(time):
