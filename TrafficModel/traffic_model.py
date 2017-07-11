@@ -502,9 +502,9 @@ def get_prediction(street, segment, date, time):
     print("Day of week: " + day_of_week)
     print("Time Interval: " + str(time_interval))
     prediction = str(classify([street, segment, day_of_week, time_interval], data))
-	start_pt = prediction.find("\'")
-	end_pt = prediction.find("\", start_pt + 1)
-	prediction_string = prediction[start_pt + 1: end_pt + 1]
+    start_pt = prediction.find("\'")
+    end_pt = prediction.find("\'", start_pt + 1)
+    prediction_string = prediction[start_pt + 1: end_pt + 1]
     return prediction_string
 	
 def set_last_update():
