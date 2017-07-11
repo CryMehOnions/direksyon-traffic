@@ -119,6 +119,7 @@ def build_tree_incremental(row, tree):
 
 
 def classify(observation, tree):
+    print("Tree.col : " + tree.col)
     if tree.results != None:
         return tree.results
     else:
