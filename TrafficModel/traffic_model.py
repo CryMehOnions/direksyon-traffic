@@ -377,10 +377,15 @@ def convert_time_interval(time):
 
 
 def convert_time_standard(time):
+    print("ENTERED convert_time_standard")
+    print("Time received: " + time)
     temp = time.split(' ')
+    hold_AMPM = temp[1]
+    print("AM/PM: " + holdAMPM)
     trim_time = temp[0]
+    print("Trimmed time: " + trim_time)
     split_time = trim_time.split(':')
-    if split_time[1] == 'PM':
+    if temp[1] == 'PM':
         if(int(split_time[0]) < 12):
             split_time[0] = str(int(split_time[0]) + 12)
     print(split_time[0] + ':' + split_time[1])
