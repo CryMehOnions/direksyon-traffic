@@ -369,7 +369,7 @@ def convert_timestamp(timestamp):
 def convert_time_interval(time):
     split_stamp = str(time).split(':')
     second_split = split_stamp[1]
-	temp = second_split.split(' ')
+    temp = second_split.split(' ')
     interval = int(round(((int(split_stamp[0]) * 60)) + (int(temp[0]) / 15)))
     return interval
 
