@@ -371,7 +371,7 @@ def convert_time_interval(time):
     split_stamp = str(time).split(':')
     split_stamp1 = split_stamp[0]
     split_stamp2 = split_stamp[1]
-    interval = int(round(((int(split_stamp1) * 60)) + (int(split_stamp2) / 15)))
+    interval = int(round((((int(split_stamp1) * 60)) + (int(split_stamp2))) / 15))
     print(interval)
     return interval
 
@@ -500,7 +500,7 @@ def get_prediction(street, segment, date, time):
     print("Street: " + street)
     print("Segment: " + segment)
     print("Day of week: " + day_of_week)
-    print("Time Interval: " + time_interval)
+    print("Time Interval: " + str(time_interval))
     return classify([street, segment, day_of_week, time_interval], data)
 
 	
