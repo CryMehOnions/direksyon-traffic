@@ -447,7 +447,7 @@ def initialize_tree():
 
     print("Querying database...")
     try:
-        cur.execute("""SELECT location_road, location_bound, location_area, timestamp, traffic FROM entries WHERE (update_timestamp > timestamp '2017-03-07 00:00:00' AND update_timestamp < timestamp '2017-03-08 00:00:00') OR (update_timestamp > timestamp '2017-03-14 00:00:00' AND update_timestamp < timestamp '2017-03-15 00:00:00') OR (update_timestamp > timestamp '2017-03-21 00:00:00' AND update_timestamp < timestamp '2017-03-22 00:00:00')""")
+        cur.execute("""SELECT location_road, location_bound, location_area, timestamp, traffic FROM entries WHERE update_timestamp > timestamp '2017-03-15 00:00:00'""")
     except:
         print("Data retrieval failed.")
 
@@ -460,9 +460,9 @@ def initialize_tree():
 
         # Result: row[0] = Street, row[1] = Segment, row[2] = Day of Week, row[3] = Time Interval, row[5] = Traffic
 
-        print("After conversion: ")
-        print(new_row)
-        print("\n")
+        # print("After conversion: ")
+        # print(new_row)
+        # print("\n")
 
     data = list(data_list)
     print("Data retrieved.")
