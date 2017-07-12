@@ -14,7 +14,7 @@ cur = conn.cursor()
 
 print("Querying database...")
 try:
-    cur.execute("""SELECT timestamp FROM entries WHERE update_timestamp > timestamp '2017-04-01 ORDER BY timestamp""")
+    cur.execute("""SELECT timestamp FROM entries WHERE update_timestamp > timestamp '2017-03-01 ORDER BY timestamp""")
 except:
     print("Data retrieval failed.")
 
