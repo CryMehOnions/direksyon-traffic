@@ -14,7 +14,7 @@ cur = conn.cursor()
 
 print("Querying database...")
 try:
-    cur.execute("""SELECT SELECT location_road, location_bound, location_area, timestamp, traffic FROM entries WHERE update_timestamp > timestamp '2017-04-01 00:00:00'""")
+    cur.execute("""SELECT location_road, location_bound, location_area, timestamp, traffic FROM entries WHERE update_timestamp > timestamp '2017-04-01 00:00:00'""")
 except:
     print("Data retrieval failed.")
 
