@@ -447,7 +447,7 @@ def initialize_tree():
 
     print("Querying database...")
     try:
-        cur.execute("""SELECT location_road, location_bound, location_area, timestamp, traffic FROM entries WHERE update_timestamp > timestamp '2017-07-10 00:00:00'""")
+        cur.execute("""SELECT location_road, location_bound, location_area, timestamp, traffic FROM entries WHERE timestamp LIKE '%Jul%' AND timestamp LIKE '%2017%'""")
     except:
         print("Data retrieval failed.")
 
