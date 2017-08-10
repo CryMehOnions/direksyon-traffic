@@ -14,7 +14,7 @@ cur = conn.cursor()
 
 print("Querying database...")
 try:
-    cur.execute("""SELECT location_road, location_area, location_bound, timestamp, traffic FROM entries WHERE (location_road = 'ORTIGAS' AND location_area = 'LA_SALLE_GREENHILLS') AND timestamp LIKE '%Fri%' AND (timestamp LIKE '%2017%' OR (timestamp LIKE '%2016%' AND timestamp LIKE '%Dec%')) AND timestamp NOT LIKE '% 14: %' AND timestamp NOT LIKE '% 15:%'""")
+    cur.execute("""SELECT location_road, location_area, location_bound, timestamp, traffic FROM entries WHERE (location_road = 'ORTIGAS' AND location_area = 'LA_SALLE_GREENHILLS') AND timestamp LIKE '%Mon%' AND (timestamp LIKE '%2017%') AND timestamp NOT LIKE '% 14: %' AND timestamp NOT LIKE '% 15:%'""")
 except:
     print("Data retrieval failed.")
 
