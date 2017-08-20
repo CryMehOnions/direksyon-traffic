@@ -1,0 +1,3 @@
+#!/bin/bash
+
+python3 /home/direksyon/direksyon-traffic/TrafficModel/traffic_model.py init
